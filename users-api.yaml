@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-api
+  template:
+    metadata:
+      labels:
+        app: users-api
+    spec:
+      containers:         
+        - name: users-api
+          image: scrumboxit/users-api
+          ports:
+            - containerPort: 9090
+          env:
+            - name: REGISTRY
+              value: registry-api
+            - name: MONGODB_HOST
+              value: mongo
+            - name: MONGO_PORT
+              value: "27017"
+            - name: SERVER_URL
+              value: users-api   
