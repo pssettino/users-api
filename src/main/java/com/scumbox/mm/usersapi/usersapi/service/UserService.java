@@ -27,8 +27,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findByName(String name) {
-        Optional<User> user = userRepository.findByName(name);
+    public User findByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
 
         return user.orElseThrow(UserNotFoundException::new);
     }

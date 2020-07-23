@@ -28,8 +28,8 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @GetMapping("/findByName")
-    public User findByName(@RequestParam String username) {
-        return userService.findByName(username);
+    @GetMapping("/findByUsername")
+    public User findByUsername(@RequestParam String username) {
+        return userService.findByUsername(username);
     }
 }
