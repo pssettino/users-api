@@ -1,6 +1,7 @@
 package com.scumbox.mm.usersapi.usersapi.controller;
 
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.User;
+import com.scumbox.mm.usersapi.usersapi.service.PublishService;
 import com.scumbox.mm.usersapi.usersapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,12 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private PublishService publishService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PublishService publishService) {
         this.userService = userService;
+        this.publishService = publishService;
     }
 
     @GetMapping("/")
@@ -25,7 +28,13 @@ public class UserController {
 
     @PutMapping("/")
     public User addUser(@RequestBody User user) {
-        return userService.addUser(user);
+
+        User userRes = userService.addUser(user);
+
+        publishService.notifyUsersCreated(userRes);
+
+        return userRes;
+
     }
 
     @GetMapping("/findByUsername")
