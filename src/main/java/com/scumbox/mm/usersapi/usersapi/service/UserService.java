@@ -4,6 +4,7 @@ import com.scumbox.mm.usersapi.usersapi.exception.UserNotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.User;
 import com.scumbox.mm.usersapi.usersapi.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Cacheable("users")
     public List<User> getAll() {
         return userRepository.findAll();
     }
@@ -27,6 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Cacheable("user")
     public User findByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
