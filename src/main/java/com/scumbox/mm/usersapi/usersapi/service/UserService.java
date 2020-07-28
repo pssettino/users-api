@@ -29,7 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    @Cacheable("user")
+    @Cacheable("users")
     public User findByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
