@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Document(collection = "secuencia_turnos")
 @Setter
@@ -22,5 +23,10 @@ public class SecuenciaTurno {
     private Integer idTurno;
 
     @NotBlank
-    private Integer dni;
+    private List<Integer> employees;
+
+    @NotBlank
+    private Integer orden;
+
+    private String descripcion;
 }

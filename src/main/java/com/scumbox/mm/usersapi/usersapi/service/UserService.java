@@ -1,6 +1,6 @@
 package com.scumbox.mm.usersapi.usersapi.service;
 
-import com.scumbox.mm.usersapi.usersapi.exception.UserNotFoundException;
+import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.User;
 import com.scumbox.mm.usersapi.usersapi.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,6 @@ public class UserService {
     public User findByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
-        return user.orElseThrow(UserNotFoundException::new);
+        return user.orElseThrow(NotFoundException::new);
     }
 }

@@ -55,9 +55,9 @@ public class Employee {
 
     private Date fechaNacimiento;
 
-    private List<Justificaciones> justificaciones;
+    private List<Integer> turnos;
 
-    private List<Turno> turnos;
 
-    private List<Fichaje> fichajes;
+    private String imageProfile;
+
 }

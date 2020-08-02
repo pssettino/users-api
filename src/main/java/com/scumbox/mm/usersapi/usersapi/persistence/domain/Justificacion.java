@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Getter
 @AllArgsConstructor
-public class Justificaciones {
+public class Justificacion {
 
     @Id
     private String id;
