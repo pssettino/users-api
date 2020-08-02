@@ -2,20 +2,25 @@ package com.scumbox.mm.usersapi.usersapi.persistence.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "roles")
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@Document(collection = "secuencia_turnos")
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class SecuenciaTurno {
+
     @Id
     private String id;
 
-    private SystemRole name;
-}
+    @NotBlank
+    private Integer idTurno;
 
+    @NotBlank
+    private Integer dni;
+}

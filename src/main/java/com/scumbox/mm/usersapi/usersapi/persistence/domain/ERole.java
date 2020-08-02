@@ -1,7 +1,15 @@
 package com.scumbox.mm.usersapi.usersapi.persistence.domain;
 
 public enum ERole {
-    ROLE_USER,
-    ROLE_MODERATOR,
-    ROLE_ADMIN
+    PROPIETARIO,
+    TECNICO,
+    MECANICO,
+    CONDUCTOR,
+    ELECTRICISTA,
+    SUPERVISOR,
+    INGENIERO_MECANICO,
+    LAVA_AUTOS,
+    GERENTE,
+    OPERARIO,
+    ADMINISTRATIVO
 }
