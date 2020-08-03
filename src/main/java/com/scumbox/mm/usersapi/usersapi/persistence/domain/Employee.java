@@ -55,7 +55,7 @@ public class Employee {
 
     private Date fechaNacimiento;
 
-    private List<Integer> turnos;
+    private Integer idTurno;
 
 
     private String imageProfile;
