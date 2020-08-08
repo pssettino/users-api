@@ -42,7 +42,7 @@ public class UserControllerTest {
         Mockito.when(userService.findByUsername(Mockito.anyString())).thenReturn(user.get());
 
         // WHEN
-        User result = userController.findByUsername("gernan");
+        User result = userController.findByUsername("german");
 
         // THEN
         Assertions.assertTrue(result.getUsername().equals("german"));
@@ -55,7 +55,7 @@ public class UserControllerTest {
 
         //WHEN
         try{
-            User result = userController.findByUsername("gernan");
+            User result = userController.findByUsername("german");
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
