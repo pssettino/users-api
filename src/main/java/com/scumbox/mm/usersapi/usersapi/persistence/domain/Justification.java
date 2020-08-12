@@ -2,17 +2,19 @@ package com.scumbox.mm.usersapi.usersapi.persistence.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 
-@Document(collection = "justificaciones")
+@Document(collection = "justifications")
 @Setter
 @Getter
 @AllArgsConstructor
-public class Justificacion {
+@NoArgsConstructor
+public class Justification {
 
     @Id
     private String id;
