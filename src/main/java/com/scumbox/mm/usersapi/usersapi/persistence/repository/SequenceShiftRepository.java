@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface SequenceShiftRepository extends MongoRepository<SequenceShift, String> {
-    Optional<SequenceShift> findByIdTurno(Integer idTurno);
+    Optional<SequenceShift> findByShiftId(Integer shiftId);
 }

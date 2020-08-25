@@ -22,7 +22,7 @@ public class Shift {
     private String id;
 
     @NotBlank
-    private Integer idTurno;
+    private Integer shiftId;
 
     @NotBlank
     @Size(max = 140)

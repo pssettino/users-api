@@ -36,10 +36,10 @@ public class ShiftServiceTest {
     public void test_findByIdTurno_when_has_value() {
         // GIVEN
         Optional<Shift> shift = Optional.of(new Shift());
-        Mockito.when(shiftRepository.findByIdTurno(Mockito.anyInt())).thenReturn(shift);
+        Mockito.when(shiftRepository.findByShiftId(Mockito.anyInt())).thenReturn(shift);
 
         // WHEN
-        Shift result = shiftService.findByIdTurno(1);
+        Shift result = shiftService.findByShiftId(1);
 
         // THEN
         Assertions.assertTrue(result != null);
@@ -48,11 +48,11 @@ public class ShiftServiceTest {
     @Test
     public void test_findByIdTurno_when_hasNot_value() {
         // GIVEN
-        Mockito.when(shiftRepository.findByIdTurno(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(shiftRepository.findByShiftId(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         // THEN
         try{
-            Shift result = shiftService.findByIdTurno(1);
+            Shift result = shiftService.findByShiftId(1);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);

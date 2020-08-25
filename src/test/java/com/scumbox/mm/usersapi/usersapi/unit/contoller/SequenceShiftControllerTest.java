@@ -20,7 +20,7 @@ public class SequenceShiftControllerTest {
     public void test_findAll_when_has_value() {
         // GIVEN
         SequenceShift seq = new SequenceShift();
-        seq.setIdTurno(1);
+        seq.setShiftId(1);
         Optional<SequenceShift> sequenceShift = Optional.of(seq);
         List<SequenceShift> sequenceShifts = new ArrayList<>();
         sequenceShifts.add(sequenceShift.get());
@@ -38,25 +38,25 @@ public class SequenceShiftControllerTest {
     public void test_findByIdTurno_when_has_value() {
         // GIVEN
         SequenceShift seq = new SequenceShift();
-        seq.setIdTurno(1);
+        seq.setShiftId(1);
         Optional<SequenceShift> sequenceShift = Optional.of(seq);
-        Mockito.when(sequenceShiftService.findByIdTurno(Mockito.anyInt())).thenReturn(sequenceShift.get());
+        Mockito.when(sequenceShiftService.findByShiftId(Mockito.anyInt())).thenReturn(sequenceShift.get());
 
         // WHEN
-        SequenceShift result = sequenceShiftController.findByIdTurno(1);
+        SequenceShift result = sequenceShiftController.findByShiftId(1);
 
         // THEN
-        Assertions.assertTrue(result.getIdTurno() == 1);
+        Assertions.assertTrue(result.getShiftId() == 1);
     }
 
     @Test
     public void test_findByIdTurno_when_hasNot_value() {
         // GIVEN
-        Mockito.when(sequenceShiftService.findByIdTurno(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(sequenceShiftService.findByShiftId(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         //WHEN
         try{
-            SequenceShift result = sequenceShiftController.findByIdTurno(33633265);
+            SequenceShift result = sequenceShiftController.findByShiftId(33633265);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
@@ -67,7 +67,7 @@ public class SequenceShiftControllerTest {
     public void test_save_when_is_ok() {
         // GIVEN
         SequenceShift seq = new SequenceShift();
-        seq.setIdTurno(1);
+        seq.setShiftId(1);
         Optional<SequenceShift> sequenceShift = Optional.of(seq);
         Mockito.when(sequenceShiftService.save(Mockito.any())).thenReturn(sequenceShift.get());
 
@@ -75,6 +75,6 @@ public class SequenceShiftControllerTest {
         SequenceShift result = sequenceShiftController.addSequenceShift(sequenceShift.get());
 
         // THEN
-        Assertions.assertTrue(result.getIdTurno() == 1);
+        Assertions.assertTrue(result.getShiftId() == 1);
     }
 }

@@ -30,8 +30,8 @@ public class SequenceShiftService {
     }
 
     @Cacheable("secuencias_turnos")
-    public SequenceShift findByIdTurno(Integer idTurno) {
-        Optional<SequenceShift> secuenciaTurno = secuenciaTurnoRepository.findByIdTurno(idTurno);
+    public SequenceShift findByShiftId(Integer shiftId) {
+        Optional<SequenceShift> secuenciaTurno = secuenciaTurnoRepository.findByShiftId(shiftId);
 
         return secuenciaTurno.orElseThrow(NotFoundException::new);
     }

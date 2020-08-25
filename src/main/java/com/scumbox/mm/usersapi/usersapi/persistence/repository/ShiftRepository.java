@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface ShiftRepository extends MongoRepository<Shift, String> {
-    Optional<Shift> findByIdTurno(Integer idTurno);
+    Optional<Shift> findByShiftId(Integer shiftId);
 }

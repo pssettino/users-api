@@ -29,8 +29,8 @@ public class SequenceShiftController {
         return sequenceShiftService.save(sequenceShift);
     }
 
-    @GetMapping("/idTurno")
-    public SequenceShift findByIdTurno(@RequestParam Integer idTurno){
-        return sequenceShiftService.findByIdTurno(idTurno);
+    @GetMapping("/shiftId")
+    public SequenceShift findByShiftId(@RequestParam Integer shiftId){
+        return sequenceShiftService.findByShiftId(shiftId);
     }
 }

@@ -22,7 +22,7 @@ public class SequenceShift {
     private String id;
 
     @NotBlank
-    private Integer idTurno;
+    private Integer shiftId;
 
     @NotBlank
     private List<Integer> employees;

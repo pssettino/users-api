@@ -36,10 +36,10 @@ public class SequenceShiftServiceTest {
     public void test_findByIdTurno_when_has_value() {
         // GIVEN
         Optional<SequenceShift> sequenceShift = Optional.of(new SequenceShift());
-        Mockito.when(sequenceShiftRepository.findByIdTurno(Mockito.anyInt())).thenReturn(sequenceShift);
+        Mockito.when(sequenceShiftRepository.findByShiftId(Mockito.anyInt())).thenReturn(sequenceShift);
 
         // WHEN
-        SequenceShift result = sequenceShiftService.findByIdTurno(1);
+        SequenceShift result = sequenceShiftService.findByShiftId(1);
 
         // THEN
         Assertions.assertTrue(result != null);
@@ -48,11 +48,11 @@ public class SequenceShiftServiceTest {
     @Test
     public void test_findByIdTurno_when_hasNot_value() {
         // GIVEN
-        Mockito.when(sequenceShiftRepository.findByIdTurno(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(sequenceShiftRepository.findByShiftId(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         // THEN
         try{
-            SequenceShift result = sequenceShiftService.findByIdTurno(1);
+            SequenceShift result = sequenceShiftService.findByShiftId(1);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);

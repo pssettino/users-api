@@ -30,8 +30,8 @@ public class ShiftService {
     }
 
     @Cacheable("turnos")
-    public Shift findByIdTurno(Integer idTurno) {
-        Optional<Shift> turno = shiftRepository.findByIdTurno(idTurno);
+    public Shift findByShiftId(Integer shiftId) {
+        Optional<Shift> turno = shiftRepository.findByShiftId(shiftId);
 
         return turno.orElseThrow(NotFoundException::new);
     }

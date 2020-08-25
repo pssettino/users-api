@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/turno")
+@RequestMapping("/api/shift")
 public class ShiftController {
 
     private ShiftService shiftService;
@@ -29,8 +29,8 @@ public class ShiftController {
         return shiftService.save(shift);
     }
 
-    @GetMapping("/idTurno")
-    public Shift findByIdTurno(@RequestParam Integer idTurno){
-        return shiftService.findByIdTurno(idTurno);
+    @GetMapping("/shiftId")
+    public Shift findByShiftId(@RequestParam Integer shiftId){
+        return shiftService.findByShiftId(shiftId);
     }
 }
