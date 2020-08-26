@@ -57,9 +57,7 @@ public class Employee {
 
     private Date fechaNacimiento;
 
-    // TODO: OneToMany o ManyToOne?
     private Integer shiftId;
-
 
     private String imageProfile;
 
