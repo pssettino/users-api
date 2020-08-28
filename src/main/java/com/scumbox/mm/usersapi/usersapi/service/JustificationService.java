@@ -19,7 +19,6 @@ public class JustificationService {
         this.justificationRepository = justificationRepository;
     }
 
-    @Cacheable("justificaciones"
     public List<Justification> getAll() {
         return justificationRepository.findAll();
     }
@@ -28,7 +27,6 @@ public class JustificationService {
         return justificationRepository.save(justification);
     }
 
-    @Cacheable("justificaciones")
     public Justification findByDni(Integer dni) {
         Optional<Justification> justificacion = justificationRepository.findByDni(dni);
 
