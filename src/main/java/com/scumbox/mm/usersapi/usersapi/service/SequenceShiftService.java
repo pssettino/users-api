@@ -20,7 +20,6 @@ public class SequenceShiftService {
         this.secuenciaTurnoRepository = secuenciaTurnoRepository;
     }
 
-    @Cacheable("secuencias_turnos")
     public List<SequenceShift> getAll() {
         return secuenciaTurnoRepository.findAll();
     }
@@ -29,7 +28,6 @@ public class SequenceShiftService {
         return secuenciaTurnoRepository.save(sequenceShift);
     }
 
-    @Cacheable("secuencias_turnos")
     public SequenceShift findByShiftId(Integer shiftId) {
         Optional<SequenceShift> secuenciaTurno = secuenciaTurnoRepository.findByShiftId(shiftId);
 

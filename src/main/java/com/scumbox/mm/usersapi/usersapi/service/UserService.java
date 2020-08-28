@@ -20,7 +20,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Cacheable("users")
     public List<User> getAll() {
         return userRepository.findAll();
     }
@@ -29,7 +28,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    @Cacheable("users")
     public User findByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 

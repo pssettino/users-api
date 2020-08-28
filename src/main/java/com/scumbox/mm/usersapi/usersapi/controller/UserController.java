@@ -31,7 +31,7 @@ public class UserController {
 
         User userRes = userService.addUser(user);
 
-        publishService.notifyUsersCreated(userRes);
+        // publishService.notifyUsersCreated(userRes);
 
         return userRes;
 

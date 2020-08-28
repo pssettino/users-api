@@ -19,7 +19,6 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    @Cacheable("employees")
     public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
@@ -28,14 +27,13 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    @Cacheable("employees")
+
     public Employee findByFullName(String fullName) {
         Optional<Employee> employee = employeeRepository.findByFullName(fullName);
 
         return employee.orElseThrow(NotFoundException::new);
     }
 
-    @Cacheable("employees")
     public Employee findByDni(Integer dni) {
         Optional<Employee> employee = employeeRepository.findByDni(dni);
 

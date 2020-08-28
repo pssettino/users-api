@@ -20,7 +20,6 @@ public class ShiftService {
         this.shiftRepository = shiftRepository;
     }
 
-    @Cacheable("turnos")
     public List<Shift> getAll() {
         return shiftRepository.findAll();
     }
@@ -29,7 +28,6 @@ public class ShiftService {
         return shiftRepository.save(shift);
     }
 
-    @Cacheable("turnos")
     public Shift findByShiftId(Integer shiftId) {
         Optional<Shift> turno = shiftRepository.findByShiftId(shiftId);
 

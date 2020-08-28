@@ -19,7 +19,7 @@ public class JustificationService {
         this.justificationRepository = justificationRepository;
     }
 
-    @Cacheable("justificaciones")
+    @Cacheable("justificaciones"
     public List<Justification> getAll() {
         return justificationRepository.findAll();
     }
