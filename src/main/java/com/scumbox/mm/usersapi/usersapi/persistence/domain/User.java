@@ -37,6 +37,8 @@ public class User {
     @Size(max = 120)
     private String password;
 
+    private String fullname;
+
     @DBRef
     private Set<Role> roles = new HashSet<>();
 
