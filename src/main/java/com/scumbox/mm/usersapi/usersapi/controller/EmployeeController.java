@@ -28,6 +28,7 @@ public class EmployeeController {
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.save(employee);
     }
+
     @GetMapping("/findByFullName")
     public Employee findByFullName(@RequestParam String fullName) {
         return employeeService.findByFullName(fullName);
