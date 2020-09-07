@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "shifts")
 @Setter
@@ -28,9 +29,11 @@ public class Shift {
     @Size(max = 140)
     private String descripcion;
 
-    @NotBlank
-    private Date start;
+    private List<Integer> daysOfWeek;
 
-    @NotBlank
-    private Date end;
+    private Integer hour;
+
+    private Integer minutes;
+
+    private Boolean extraHoursAvailable;
 }
