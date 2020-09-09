@@ -26,8 +26,8 @@ public class SanctionService {
         return sanctionRepository.save(sanction);
     }
 
-    public Sanction findByDni(Integer dni) {
-        Optional<Sanction> sanction = sanctionRepository.findByDni(dni);
+    public Sanction findByDocumentNumber(Integer documentNumber) {
+        Optional<Sanction> sanction = sanctionRepository.findByDocumentNumber(documentNumber);
 
         return sanction.orElseThrow(NotFoundException::new);
     }

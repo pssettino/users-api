@@ -20,7 +20,7 @@ public class EmployeeControllerTest {
     public void test_findAll_when_has_value() {
         // GIVEN
         Employee emp = new Employee();
-        emp.setDni(33633264);
+        emp.setDocumentNumber(33633264);
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
         List<Employee> employees = new ArrayList<>();
@@ -39,23 +39,23 @@ public class EmployeeControllerTest {
     public void test_findByDni_when_has_value() {
         // GIVEN
         Employee emp = new Employee();
-        emp.setDni(33633264);
+        emp.setDocumentNumber(33633264);
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
-        Mockito.when(employeeService.findByDni(Mockito.anyInt())).thenReturn(employee.get());
+        Mockito.when(employeeService.findByDocumentNumber(Mockito.anyInt())).thenReturn(employee.get());
 
         // WHEN
-        Employee result = employeeController.findByDni(33633264);
+        Employee result = employeeController.findByDocumentNumber(33633264);
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 
     @Test
     public void test_findByFullName_when_has_value() {
         // GIVEN
         Employee emp = new Employee();
-        emp.setDni(33633264);
+        emp.setDocumentNumber(33633264);
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
         Mockito.when(employeeService.findByFullName(Mockito.anyString())).thenReturn(employee.get());
@@ -70,11 +70,11 @@ public class EmployeeControllerTest {
     @Test
     public void test_findByDni_when_hasNot_value() {
         // GIVEN
-        Mockito.when(employeeService.findByDni(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(employeeService.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         //WHEN
         try{
-            Employee result = employeeController.findByDni(33633264);
+            Employee result = employeeController.findByDocumentNumber(33633264);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
@@ -99,7 +99,7 @@ public class EmployeeControllerTest {
     public void test_save_when_is_ok() {
         // GIVEN
         Employee emp = new Employee();
-        emp.setDni(33633264);
+        emp.setDocumentNumber(33633264);
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
         Mockito.when(employeeService.save(Mockito.any())).thenReturn(employee.get());

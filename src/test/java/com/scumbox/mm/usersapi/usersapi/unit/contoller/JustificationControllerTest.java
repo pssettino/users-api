@@ -34,7 +34,7 @@ public class JustificationControllerTest {
         // GIVEN
 
 
-        Optional<Justification> justification = Optional.of(new Justification("345464", 33633264, justificationDetailMock()));
+        Optional<Justification> justification = Optional.of(new Justification(33633264, justificationDetailMock()));
 
         List<Justification> justifications = new ArrayList<>();
         justifications.add(justification.get());
@@ -51,24 +51,24 @@ public class JustificationControllerTest {
     @Test
     public void test_findByDni_when_has_value() {
         // GIVEN
-        Optional<Justification> justification = Optional.of(new Justification("345464", 33633264, justificationDetailMock()));
-        Mockito.when(justificationService.findByDni(Mockito.anyInt())).thenReturn(justification.get());
+        Optional<Justification> justification = Optional.of(new Justification(33633264, justificationDetailMock()));
+        Mockito.when(justificationService.findByDocumentNumber(Mockito.anyInt())).thenReturn(justification.get());
 
         // WHEN
-        Justification result = justificationController.findByDni(33633264);
+        Justification result = justificationController.findByDocumentNumber(33633264);
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 
     @Test
     public void test_findByDni_when_hasNot_value() {
         // GIVEN
-        Mockito.when(justificationService.findByDni(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(justificationService.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         //WHEN
         try{
-            Justification result = justificationController.findByDni(33633265);
+            Justification result = justificationController.findByDocumentNumber(33633265);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
@@ -78,14 +78,14 @@ public class JustificationControllerTest {
     @Test
     public void test_save_when_is_ok() {
         // GIVEN
-        Optional<Justification> justification = Optional.of(new Justification("345464", 33633264, justificationDetailMock()));
+        Optional<Justification> justification = Optional.of(new Justification(33633264, justificationDetailMock()));
         Mockito.when(justificationService.save(Mockito.any())).thenReturn(justification.get());
 
         // WHEN
         Justification result = justificationController.addJusticacion(justification.get());
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 
     @Test
@@ -96,14 +96,14 @@ public class JustificationControllerTest {
         detail.setEnd(new Date());
         detail.setDescription("Me quede dormido");
 
-        Optional<Justification> justification = Optional.of(new Justification("345464", 33633264, justificationDetailMock()));
-        Mockito.when(justificationService.findByDni(Mockito.anyInt())).thenReturn(justification.get());
+        Optional<Justification> justification = Optional.of(new Justification(33633264, justificationDetailMock()));
+        Mockito.when(justificationService.findByDocumentNumber(Mockito.anyInt())).thenReturn(justification.get());
         Mockito.when(justificationService.save(Mockito.any())).thenReturn(justification.get());
 
         // WHEN
         Justification result = justificationController.addJustificationDetail(33633264, detail);
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 }

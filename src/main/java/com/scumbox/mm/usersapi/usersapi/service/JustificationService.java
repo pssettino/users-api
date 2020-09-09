@@ -27,8 +27,8 @@ public class JustificationService {
         return justificationRepository.save(justification);
     }
 
-    public Justification findByDni(Integer dni) {
-        Optional<Justification> justificacion = justificationRepository.findByDni(dni);
+    public Justification findByDocumentNumber(Integer documentNumber) {
+        Optional<Justification> justificacion = justificationRepository.findByDocumentNumber(documentNumber);
 
         return justificacion.orElseThrow(NotFoundException::new);
     }

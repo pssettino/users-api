@@ -36,10 +36,10 @@ public class SanctionServiceTest {
     public void test_findByDni_when_has_value() {
         // GIVEN
         Optional<Sanction> sanction = Optional.of(new Sanction());
-        Mockito.when(sanctionRepository.findByDni(Mockito.anyInt())).thenReturn(sanction);
+        Mockito.when(sanctionRepository.findByDocumentNumber(Mockito.anyInt())).thenReturn(sanction);
 
         // WHEN
-        Sanction result = sanctionService.findByDni(1);
+        Sanction result = sanctionService.findByDocumentNumber(1);
 
         // THEN
         Assertions.assertTrue(result != null);
@@ -48,11 +48,11 @@ public class SanctionServiceTest {
     @Test
     public void test_findByDni_when_hasNot_value() {
         // GIVEN
-        Mockito.when(sanctionRepository.findByDni(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(sanctionRepository.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         // THEN
         try{
-            Sanction result = sanctionService.findByDni(1);
+            Sanction result = sanctionService.findByDocumentNumber(1);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);

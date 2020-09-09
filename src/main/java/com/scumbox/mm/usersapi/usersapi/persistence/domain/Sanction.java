@@ -17,10 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Sanction {
     @Id
-    private String id;
-
     @NotBlank
-    private Integer dni;
-
+    private Integer documentNumber;
     private List<SanctionDetail> santionDetail;
 }

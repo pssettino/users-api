@@ -34,8 +34,8 @@ public class EmployeeController {
         return employeeService.findByFullName(fullName);
     }
 
-    @GetMapping("/dni")
-    public Employee findByDni(@RequestParam Integer dni) {
-        return employeeService.findByDni(dni);
+    @GetMapping("/documentNumber")
+    public Employee findByDocumentNumber(@RequestParam Integer documentNumber) {
+        return employeeService.findByDocumentNumber(documentNumber);
     }
 }

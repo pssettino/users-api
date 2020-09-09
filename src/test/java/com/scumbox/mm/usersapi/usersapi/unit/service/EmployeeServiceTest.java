@@ -63,10 +63,10 @@ public class EmployeeServiceTest {
     public void test_findByDni_when_has_value() {
         // GIVEN
         Optional<Employee> employee = Optional.of(new Employee());
-        Mockito.when(employeeRepository.findByDni(Mockito.anyInt())).thenReturn(employee);
+        Mockito.when(employeeRepository.findByDocumentNumber(Mockito.anyInt())).thenReturn(employee);
 
         // WHEN
-        Employee result = employeeService.findByDni(1);
+        Employee result = employeeService.findByDocumentNumber(1);
 
         // THEN
         Assertions.assertTrue(result != null);
@@ -75,11 +75,11 @@ public class EmployeeServiceTest {
     @Test
     public void test_findByDni_when_hasNot_value() {
         // GIVEN
-        Mockito.when(employeeRepository.findByDni(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(employeeRepository.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         // THEN
         try{
-            Employee result = employeeService.findByDni(1);
+            Employee result = employeeService.findByDocumentNumber(1);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);

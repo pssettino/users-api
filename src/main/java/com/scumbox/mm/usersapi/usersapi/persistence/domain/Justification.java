@@ -18,10 +18,8 @@ import java.util.List;
 public class Justification {
 
     @Id
-    private String id;
-
     @NotBlank
-    private Integer dni;
+    private Integer documentNumber;
 
     private List<JustificationDetail> justificationDetail;
 }

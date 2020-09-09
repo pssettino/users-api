@@ -17,10 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SequenceShift {
-
     @Id
-    private String id;
-
     @NotBlank
     private Integer shiftId;
 
@@ -30,5 +27,5 @@ public class SequenceShift {
     @NotBlank
     private Integer orden;
 
-    private String descripcion;
+    private String description;
 }

@@ -31,10 +31,10 @@ public class JustificationController {
         return justificationService.save(justification);
     }
 
-    @PutMapping("/{dni}")
-    public Justification addJustificationDetail(@PathVariable Integer dni,
+    @PutMapping("/{documentNumber}")
+    public Justification addJustificationDetail(@PathVariable Integer documentNumber,
                                                 @RequestBody JustificationDetail justificationDetail) {
-        Justification justification = justificationService.findByDni(dni);
+        Justification justification = justificationService.findByDocumentNumber(documentNumber);
 
         List<JustificationDetail> detail = justification.getJustificationDetail();
         if(detail ==  null){
@@ -45,9 +45,9 @@ public class JustificationController {
         return justificationService.save(justification);
     }
 
-    @GetMapping("/dni")
-    public Justification findByDni(@RequestParam Integer dni) {
-        return justificationService.findByDni(dni);
+    @GetMapping("/documentNumber")
+    public Justification findByDocumentNumber(@RequestParam Integer documentNumber) {
+        return justificationService.findByDocumentNumber(documentNumber);
     }
 }
 

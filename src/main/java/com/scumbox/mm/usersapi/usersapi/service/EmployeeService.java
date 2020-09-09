@@ -34,8 +34,8 @@ public class EmployeeService {
         return employee.orElseThrow(NotFoundException::new);
     }
 
-    public Employee findByDni(Integer dni) {
-        Optional<Employee> employee = employeeRepository.findByDni(dni);
+    public Employee findByDocumentNumber(Integer documentNumber) {
+        Optional<Employee> employee = employeeRepository.findByDocumentNumber(documentNumber);
 
         return employee.orElseThrow(NotFoundException::new);
     }

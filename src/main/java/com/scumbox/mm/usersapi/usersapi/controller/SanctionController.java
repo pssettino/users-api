@@ -30,10 +30,10 @@ public class SanctionController {
         return sanctionService.save(sanction);
     }
 
-    @PutMapping("/{dni}")
-    public Sanction addSantionDetail(@PathVariable Integer dni,
+    @PutMapping("/{documentNumber}")
+    public Sanction addSantionDetail(@PathVariable Integer documentNumber,
                                                 @RequestBody SanctionDetail sanctionDetail) {
-        Sanction sanction = sanctionService.findByDni(dni);
+        Sanction sanction = sanctionService.findByDocumentNumber(documentNumber);
 
         List<SanctionDetail> detail = sanction.getSantionDetail();
         if(detail ==  null){
@@ -44,8 +44,8 @@ public class SanctionController {
         return sanctionService.save(sanction);
     }
 
-    @GetMapping("/dni")
-    public Sanction findByDni(@RequestParam Integer dni) {
-        return sanctionService.findByDni(dni);
+    @GetMapping("/documentNumber")
+    public Sanction findByDocumentNumber(@RequestParam Integer documentNumber) {
+        return sanctionService.findByDocumentNumber(documentNumber);
     }
 }

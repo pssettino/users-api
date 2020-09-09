@@ -20,14 +20,12 @@ import java.util.List;
 public class Shift {
 
     @Id
-    private String id;
-
     @NotBlank
     private Integer shiftId;
 
     @NotBlank
     @Size(max = 140)
-    private String descripcion;
+    private String description;
 
     private List<Integer> daysOfWeek;
 

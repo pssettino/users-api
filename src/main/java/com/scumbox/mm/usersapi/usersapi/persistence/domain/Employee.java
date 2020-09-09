@@ -21,13 +21,11 @@ import java.util.List;
 public class Employee {
 
     @Id
-    private String id;
-
     @NotBlank
     @Size(max = 8)
-    private Integer dni;
+    private Integer documentNumber;
 
-    private String tipoDni;
+    private String documentType;
 
     @NotBlank
     @Size(max = 20)
@@ -51,11 +49,11 @@ public class Employee {
 
     private Address address;
 
-    private List<String> telefonos;
+    private List<String> telephones;
 
     private String cuil;
 
-    private Date fechaNacimiento;
+    private Date birthday;
 
     private Integer shiftId;
 

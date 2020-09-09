@@ -34,7 +34,7 @@ public class SanctionControllerTest {
         // GIVEN
 
 
-        Optional<Sanction> sanction = Optional.of(new Sanction("345464", 33633264, sanctionDetailMock()));
+        Optional<Sanction> sanction = Optional.of(new Sanction(33633264, sanctionDetailMock()));
 
         List<Sanction> sanctions = new ArrayList<>();
         sanctions.add(sanction.get());
@@ -51,24 +51,24 @@ public class SanctionControllerTest {
     @Test
     public void test_findByDni_when_has_value() {
         // GIVEN
-        Optional<Sanction> sanction = Optional.of(new Sanction("345464", 33633264, sanctionDetailMock()));
-        Mockito.when(sanctionService.findByDni(Mockito.anyInt())).thenReturn(sanction.get());
+        Optional<Sanction> sanction = Optional.of(new Sanction(33633264, sanctionDetailMock()));
+        Mockito.when(sanctionService.findByDocumentNumber(Mockito.anyInt())).thenReturn(sanction.get());
 
         // WHEN
-        Sanction result = sanctionController.findByDni(33633264);
+        Sanction result = sanctionController.findByDocumentNumber(33633264);
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 
     @Test
     public void test_findByDni_when_hasNot_value() {
         // GIVEN
-        Mockito.when(sanctionService.findByDni(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(sanctionService.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         //WHEN
         try{
-            Sanction result = sanctionController.findByDni(33633265);
+            Sanction result = sanctionController.findByDocumentNumber(33633265);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
@@ -78,14 +78,14 @@ public class SanctionControllerTest {
     @Test
     public void test_save_when_is_ok() {
         // GIVEN
-        Optional<Sanction> sanction = Optional.of(new Sanction("345464", 33633264, sanctionDetailMock()));
+        Optional<Sanction> sanction = Optional.of(new Sanction(33633264, sanctionDetailMock()));
         Mockito.when(sanctionService.save(Mockito.any())).thenReturn(sanction.get());
 
         // WHEN
         Sanction result = sanctionController.addSantion(sanction.get());
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 
     @Test
@@ -96,14 +96,14 @@ public class SanctionControllerTest {
         detail.setEnd(new Date());
         detail.setDescription("Me quede dormido");
 
-        Optional<Sanction> sanction = Optional.of(new Sanction("345464", 33633264, sanctionDetailMock()));
-        Mockito.when(sanctionService.findByDni(Mockito.anyInt())).thenReturn(sanction.get());
+        Optional<Sanction> sanction = Optional.of(new Sanction(33633264, sanctionDetailMock()));
+        Mockito.when(sanctionService.findByDocumentNumber(Mockito.anyInt())).thenReturn(sanction.get());
         Mockito.when(sanctionService.save(Mockito.any())).thenReturn(sanction.get());
 
         // WHEN
         Sanction result = sanctionController.addSantionDetail(33633264, detail);
 
         // THEN
-        Assertions.assertTrue(result.getDni() == 33633264);
+        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
     }
 }

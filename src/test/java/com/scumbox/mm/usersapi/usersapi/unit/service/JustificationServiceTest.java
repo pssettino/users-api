@@ -36,10 +36,10 @@ public class JustificationServiceTest {
     public void test_findByDni_when_has_value() {
         // GIVEN
         Optional<Justification> justification = Optional.of(new Justification());
-        Mockito.when(justificationRepository.findByDni(Mockito.anyInt())).thenReturn(justification);
+        Mockito.when(justificationRepository.findByDocumentNumber(Mockito.anyInt())).thenReturn(justification);
 
         // WHEN
-        Justification result = justificationService.findByDni(1);
+        Justification result = justificationService.findByDocumentNumber(1);
 
         // THEN
         Assertions.assertTrue(result != null);
@@ -48,11 +48,11 @@ public class JustificationServiceTest {
     @Test
     public void test_findByDni_when_hasNot_value() {
         // GIVEN
-        Mockito.when(justificationRepository.findByDni(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(justificationRepository.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
 
         // THEN
         try{
-            Justification result = justificationService.findByDni(1);
+            Justification result = justificationService.findByDocumentNumber(1);
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
