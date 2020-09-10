@@ -35,7 +35,7 @@ public class SanctionController {
                                                 @RequestBody SanctionDetail sanctionDetail) {
         Sanction sanction = sanctionService.findByDocumentNumber(documentNumber);
 
-        List<SanctionDetail> detail = sanction.getSantionDetail();
+        List<SanctionDetail> detail = sanction.getSanctionDetail();
         if(detail ==  null){
             detail = new ArrayList<>();
         }

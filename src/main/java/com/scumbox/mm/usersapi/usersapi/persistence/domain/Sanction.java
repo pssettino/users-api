@@ -1,5 +1,6 @@
 package com.scumbox.mm.usersapi.usersapi.persistence.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Sanction {
     @Id
+    @JsonIgnore
+    private String id;
     @NotBlank
     private Integer documentNumber;
-    private List<SanctionDetail> santionDetail;
+    private List<SanctionDetail> sanctionDetail;
+
+    public Sanction(@NotBlank Integer documentNumber, List<SanctionDetail> sanctionDetail) {
+        this.documentNumber = documentNumber;
+        this.sanctionDetail = sanctionDetail;
+    }
 }

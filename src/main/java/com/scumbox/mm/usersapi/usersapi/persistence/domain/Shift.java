@@ -1,5 +1,6 @@
 package com.scumbox.mm.usersapi.usersapi.persistence.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ import java.util.List;
 public class Shift {
 
     @Id
+    @JsonIgnore
+    private String id;
+
     @NotBlank
     private Integer shiftId;
 

@@ -12,13 +12,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address implements Serializable {
-
     private String address;
-
-    private String localidad;
-
-    private String provincia;
-
-    private String codigoPostal;
-
+    private String city;
+    private String country;
+    private String postalCode;
 }

@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface JustificationRepository extends MongoRepository<Justification, Integer> {
+public interface JustificationRepository extends MongoRepository<Justification, String> {
     Optional<Justification> findByDocumentNumber(Integer documentNumber);
 }
