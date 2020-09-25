@@ -41,9 +41,9 @@ public class ImageProfileController {
         return imageProfileService.findByDocumentNumber(documentNumber);
     }
 
-    @GetMapping("/{id}/download")
-    public ResponseEntity<byte[]> getFile(@PathVariable Integer id) {
-        ImageProfile imageProfile = imageProfileService.getFile(id);
+    @GetMapping("/{documentNumber}/download")
+    public ResponseEntity<byte[]> getFile(@PathVariable Integer documentNumber) {
+        ImageProfile imageProfile = imageProfileService.findByDocumentNumber(documentNumber);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageProfile.getName() + "\"")
