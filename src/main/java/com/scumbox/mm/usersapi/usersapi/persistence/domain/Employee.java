@@ -61,6 +61,4 @@ public class Employee {
 
     private Integer shiftId;
 
-    private String imageProfile;
-
 }
