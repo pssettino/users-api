@@ -26,7 +26,7 @@ public class JustificationController {
     }
 
 
-    @PutMapping("/")
+    @PostMapping("/")
     public Justification addJusticacion(@RequestBody Justification justification) {
         return justificationService.save(justification);
     }
@@ -45,8 +45,8 @@ public class JustificationController {
         return justificationService.save(justification);
     }
 
-    @GetMapping("/documentNumber")
-    public Justification findByDocumentNumber(@RequestParam Integer documentNumber) {
+    @GetMapping("/{documentNumber}")
+    public Justification findByDocumentNumber(@PathVariable Integer documentNumber) {
         return justificationService.findByDocumentNumber(documentNumber);
     }
 }

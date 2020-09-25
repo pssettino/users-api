@@ -26,9 +26,9 @@ public class DocumentService {
         return documentRepository.findAll();
     }
 
-    public Document store(MultipartFile file) throws IOException {
+    public Document store(MultipartFile file, Integer documentNumber) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Document document = new Document(fileName, file.getContentType(), file.getBytes());
+        Document document = new Document(documentNumber, fileName, file.getContentType(), file.getBytes());
         document.setLastUpdate(new Date());
         return documentRepository.save(document);
     }

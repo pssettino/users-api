@@ -25,7 +25,8 @@ public class Document {
     public Document() {
     }
 
-    public Document(String name, String type, byte[] data) {
+    public Document(Integer documentNumber, String name, String type, byte[] data) {
+        this.documentNumber = documentNumber;
         this.name = name;
         this.type = type;
         this.data = data;

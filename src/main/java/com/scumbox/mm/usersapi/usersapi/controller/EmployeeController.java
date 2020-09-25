@@ -24,7 +24,7 @@ public class EmployeeController {
     }
 
 
-    @PutMapping("/")
+    @PostMapping("/")
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.save(employee);
     }
@@ -34,8 +34,8 @@ public class EmployeeController {
         return employeeService.findByFullName(fullName);
     }
 
-    @GetMapping("/documentNumber")
-    public Employee findByDocumentNumber(@RequestParam Integer documentNumber) {
+    @GetMapping("/{documentNumber}")
+    public Employee findByDocumentNumber(@PathVariable Integer documentNumber) {
         return employeeService.findByDocumentNumber(documentNumber);
     }
 }

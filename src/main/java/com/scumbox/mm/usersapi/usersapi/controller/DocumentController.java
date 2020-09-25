@@ -25,10 +25,10 @@ public class DocumentController {
     }
 
 
-    @PostMapping("/upload")
-    public Document uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/{documentNumber}/upload")
+    public Document uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Integer documentNumber) {
         try {
-            return documentService.store(file);
+            return documentService.store(file, documentNumber);
         } catch (MaxUploadSizeExceededException mue) {
             throw new MaxSizeException(2L);
         } catch (Exception ex) {
@@ -41,7 +41,7 @@ public class DocumentController {
         return documentService.findByDocumentNumber(documentNumber);
     }
 
-    @GetMapping("/document/{id}")
+    @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> getFile(@PathVariable Integer id) {
         Document document = documentService.getFile(id);
 

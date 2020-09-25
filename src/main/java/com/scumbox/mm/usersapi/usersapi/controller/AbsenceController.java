@@ -25,7 +25,7 @@ public class AbsenceController {
     }
 
 
-    @PutMapping("/")
+    @PostMapping("/")
     public Absence addAbsence(@RequestBody Absence absence) {
         return absenceService.save(absence);
     }
@@ -44,8 +44,8 @@ public class AbsenceController {
         return absenceService.save(absence);
     }
 
-    @GetMapping("/documentNumber")
-    public Absence findByDocumentNumber(@RequestParam Integer documentNumber) {
+    @GetMapping("/{documentNumber}")
+    public Absence findByDocumentNumber(@PathVariable Integer documentNumber) {
         return absenceService.findByDocumentNumber(documentNumber);
     }
 }

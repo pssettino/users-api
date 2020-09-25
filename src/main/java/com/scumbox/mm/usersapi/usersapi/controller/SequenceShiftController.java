@@ -24,13 +24,13 @@ public class SequenceShiftController {
     }
 
 
-    @PutMapping("/")
+    @PostMapping("/")
     public SequenceShift addSequenceShift(@RequestBody SequenceShift sequenceShift) {
         return sequenceShiftService.save(sequenceShift);
     }
 
-    @GetMapping("/shiftId")
-    public SequenceShift findByShiftId(@RequestParam Integer shiftId){
+    @GetMapping("/{shiftId}")
+    public SequenceShift findByShiftId(@PathVariable Integer shiftId){
         return sequenceShiftService.findByShiftId(shiftId);
     }
 }

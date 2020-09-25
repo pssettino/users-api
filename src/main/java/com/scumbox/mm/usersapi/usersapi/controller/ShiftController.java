@@ -24,13 +24,13 @@ public class ShiftController {
     }
 
 
-    @PutMapping("/")
+    @PostMapping("/")
     public Shift addShift(@RequestBody Shift shift) {
         return shiftService.save(shift);
     }
 
-    @GetMapping("/shiftId")
-    public Shift findByShiftId(@RequestParam Integer shiftId){
+    @GetMapping("/{shiftId}")
+    public Shift findByShiftId(@PathVariable Integer shiftId){
         return shiftService.findByShiftId(shiftId);
     }
 }

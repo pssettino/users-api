@@ -25,7 +25,7 @@ public class SanctionController {
     }
 
 
-    @PutMapping("/")
+    @PostMapping("/")
     public Sanction addSantion(@RequestBody Sanction sanction) {
         return sanctionService.save(sanction);
     }
@@ -44,8 +44,8 @@ public class SanctionController {
         return sanctionService.save(sanction);
     }
 
-    @GetMapping("/documentNumber")
-    public Sanction findByDocumentNumber(@RequestParam Integer documentNumber) {
+    @GetMapping("/{documentNumber}")
+    public Sanction findByDocumentNumber(@PathVariable Integer documentNumber) {
         return sanctionService.findByDocumentNumber(documentNumber);
     }
 }
