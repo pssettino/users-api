@@ -33,9 +33,9 @@ public class Shift {
 
     private List<Integer> daysOfWeek;
 
-    private Integer hour;
-
-    private Integer minutes;
-
+    private Integer startHour;
+    private Integer startMinutes;
+    private Integer endtHour;
+    private Integer endtMinutes;
     private Boolean extraHoursAvailable;
 }

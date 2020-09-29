@@ -53,7 +53,9 @@ public class Employee {
 
     private Address address;
 
-    private List<String> telephones;
+    private String cellphone;
+
+    private String telephone;
 
     private String cuil;
 
