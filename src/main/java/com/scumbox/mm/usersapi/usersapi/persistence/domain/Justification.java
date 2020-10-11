@@ -19,7 +19,6 @@ import java.util.List;
 public class Justification {
 
     @Id
-    @JsonIgnore
     private String id;
 
     @NotBlank

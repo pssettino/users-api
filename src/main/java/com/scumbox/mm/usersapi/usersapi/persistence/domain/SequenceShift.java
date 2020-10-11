@@ -19,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 public class SequenceShift {
     @Id
-    @JsonIgnore
     private String id;
 
     @NotBlank

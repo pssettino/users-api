@@ -21,7 +21,6 @@ import java.util.List;
 public class Shift {
 
     @Id
-    @JsonIgnore
     private String id;
 
     @NotBlank
@@ -37,5 +36,4 @@ public class Shift {
     private Integer startMinutes;
     private Integer endtHour;
     private Integer endtMinutes;
-    private Boolean extraHoursAvailable;
 }

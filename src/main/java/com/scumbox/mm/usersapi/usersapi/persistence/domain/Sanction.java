@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Sanction {
     @Id
-    @JsonIgnore
     private String id;
     @NotBlank
     private Integer documentNumber;

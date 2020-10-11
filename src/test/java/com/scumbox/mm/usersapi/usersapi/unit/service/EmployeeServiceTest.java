@@ -2,8 +2,10 @@ package com.scumbox.mm.usersapi.usersapi.unit.service;
 
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
+import com.scumbox.mm.usersapi.usersapi.persistence.domain.ExtraHours;
 import com.scumbox.mm.usersapi.usersapi.persistence.repository.EmployeeRepository;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
+import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

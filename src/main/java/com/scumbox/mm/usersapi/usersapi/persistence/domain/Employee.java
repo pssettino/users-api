@@ -22,7 +22,6 @@ import java.util.List;
 public class Employee {
 
     @Id
-    @JsonIgnore
     private String id;
 
     @NotBlank
@@ -63,4 +62,5 @@ public class Employee {
 
     private Integer shiftId;
 
+    private Boolean extraHoursAvailable;
 }

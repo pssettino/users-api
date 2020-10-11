@@ -19,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Absence implements Serializable {
     @Id
-    @JsonIgnore
     private String id;
 
     @NotBlank

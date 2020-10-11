@@ -1,8 +1,10 @@
 package com.scumbox.mm.usersapi.usersapi.service;
 
+import com.netflix.discovery.converters.Auto;
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.persistence.repository.EmployeeRepository;
+import com.scumbox.mm.usersapi.usersapi.persistence.repository.ExtraHoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -14,9 +16,14 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private ExtraHoursService extraHoursService;
+
+    @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }

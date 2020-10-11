@@ -3,10 +3,13 @@ package com.scumbox.mm.usersapi.usersapi.unit.contoller;
 import com.scumbox.mm.usersapi.usersapi.controller.EmployeeController;
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
+import com.scumbox.mm.usersapi.usersapi.persistence.domain.ExtraHours;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
+import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +17,8 @@ import java.util.Optional;
 
 public class EmployeeControllerTest {
     EmployeeService employeeService = Mockito.mock(EmployeeService.class);
-    EmployeeController employeeController = new EmployeeController(employeeService);
+    ExtraHoursService extraHoursService = Mockito.mock(ExtraHoursService.class);
+    EmployeeController employeeController = new EmployeeController(employeeService, extraHoursService);
 
     @Test
     public void test_findAll_when_has_value() {
@@ -28,10 +32,10 @@ public class EmployeeControllerTest {
         Mockito.when(employeeService.getAll()).thenReturn(employees);
 
         // WHEN
-        List<Employee> result = employeeController.getAll();
+        ResponseEntity<List<Employee>> result = employeeController.getAll();
 
         // THEN
-        Assertions.assertTrue(result.size() > 0);
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
 
@@ -103,7 +107,7 @@ public class EmployeeControllerTest {
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
         Mockito.when(employeeService.save(Mockito.any())).thenReturn(employee.get());
-
+        Mockito.when(extraHoursService.trackExtraHour(Mockito.any(), Mockito.anyBoolean())).thenReturn(new ExtraHours());
         // WHEN
         Employee result = employeeController.addEmployee(employee.get());
 
