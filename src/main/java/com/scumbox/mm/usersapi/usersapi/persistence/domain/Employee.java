@@ -63,4 +63,24 @@ public class Employee {
     private Integer shiftId;
 
     private Boolean extraHoursAvailable;
+
+    public Employee wrappEmployee(Employee employee) {
+        this.documentNumber = employee.getDocumentNumber();
+        this.documentType = employee.getDocumentType();
+        this.fullName = employee.getFullName();
+        this.email = employee.getEmail();
+        this.startDate = employee.getStartDate();
+        this.endDate = employee.getEndDate();
+        this.status = employee.getStatus();
+        this.role = employee.getRole();
+        this.address = employee.getAddress();
+        this.cellphone = employee.getCellphone();
+        this.telephone = employee.getTelephone();
+        this.cuil = employee.getCuil();
+        this.birthday = employee.getBirthday();
+        this.shiftId = employee.getShiftId();
+        this.extraHoursAvailable = employee.getExtraHoursAvailable();
+
+        return this;
+    }
 }

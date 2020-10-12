@@ -1,5 +1,6 @@
 package com.scumbox.mm.usersapi.usersapi.controller;
 
+import com.scumbox.mm.usersapi.usersapi.commons.JsonResponse;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
@@ -34,22 +35,35 @@ public class EmployeeController {
 
 
     @PostMapping("/")
-    public @ResponseBody Employee addEmployee(@RequestBody Employee employee) {
-
+    public @ResponseBody
+    Employee addEmployee(@RequestBody Employee employee) {
         Employee empl = employeeService.save(employee);
         // TODO: SHOULD BE CACHEABLE?
         extraHoursService.trackExtraHour(empl.getDocumentNumber(), empl.getExtraHoursAvailable());
         return empl;
+    }
 
+    @PutMapping("/")
+    public @ResponseBody
+    Employee updateEmployee(@RequestBody Employee employee) {
+        // TODO: ACA SE PUEDE IMPLEMENTAR UN BUILDER
+        Employee empl = employeeService.findByDocumentNumber(employee.getDocumentNumber());
+        empl.wrappEmployee(employee);
+        employeeService.save(empl);
+        // TODO: SHOULD BE CACHEABLE?
+        extraHoursService.trackExtraHour(empl.getDocumentNumber(), empl.getExtraHoursAvailable());
+        return empl;
     }
 
     @GetMapping("/findByFullName")
-    public @ResponseBody Employee findByFullName(@RequestParam String fullName) {
+    public @ResponseBody
+    Employee findByFullName(@RequestParam String fullName) {
         return employeeService.findByFullName(fullName);
     }
 
     @GetMapping("/{documentNumber}")
-    public @ResponseBody Employee findByDocumentNumber(@PathVariable Integer documentNumber) {
+    public @ResponseBody
+    Employee findByDocumentNumber(@PathVariable Integer documentNumber) {
         return employeeService.findByDocumentNumber(documentNumber);
     }
 }
