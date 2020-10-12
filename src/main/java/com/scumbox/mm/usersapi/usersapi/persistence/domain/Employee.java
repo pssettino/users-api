@@ -60,7 +60,7 @@ public class Employee {
 
     private Date birthday;
 
-    private Integer shiftId;
+    private String shiftId;
 
     private Boolean extraHoursAvailable;
 

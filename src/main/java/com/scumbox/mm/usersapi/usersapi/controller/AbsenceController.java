@@ -30,11 +30,10 @@ public class AbsenceController {
         return absenceService.save(absence);
     }
 
-    @PutMapping("/{documentNumber}")
-    public Absence addAbsenceDetail(@PathVariable Integer documentNumber,
+    @PutMapping("/{id}")
+    public Absence addAbsenceDetail(@PathVariable String id,
                                                 @RequestBody AbsenceDetail absenceDetail) {
-        Absence absence = absenceService.findByDocumentNumber(documentNumber);
-
+        Absence absence = absenceService.findById(id);
         List<AbsenceDetail> detail = absence.getAbsenceDetails();
         if(detail ==  null){
             detail = new ArrayList<>();
@@ -42,6 +41,11 @@ public class AbsenceController {
         detail.add(absenceDetail);
 
         return absenceService.save(absence);
+    }
+
+    @GetMapping("/{id}")
+    public Absence findById(@PathVariable String id){
+        return absenceService.findById(id);
     }
 
     @GetMapping("/{documentNumber}")

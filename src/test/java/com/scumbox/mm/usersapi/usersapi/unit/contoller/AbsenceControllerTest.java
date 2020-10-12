@@ -99,12 +99,12 @@ public class AbsenceControllerTest {
         detail.setType("JUSTIFICATION");
         detail.setDescription("Me quede dormido");
 
-        Optional<Absence> absence = Optional.of(new Absence(33633264, absencesDetailMock()));
-        Mockito.when(absenceService.findByDocumentNumber(Mockito.anyInt())).thenReturn(absence.get());
+        Optional<Absence> absence = Optional.of(new Absence("33633264", 33633264, absencesDetailMock()));
+        Mockito.when(absenceService.findById(Mockito.anyString())).thenReturn(absence.get());
         Mockito.when(absenceService.save(Mockito.any())).thenReturn(absence.get());
 
         // WHEN
-        Absence result = absenceControllerTest.addAbsenceDetail(33633264, detail);
+        Absence result = absenceControllerTest.addAbsenceDetail("33633264", detail);
 
         // THEN
         Assertions.assertTrue(result.getDocumentNumber() == 33633264);

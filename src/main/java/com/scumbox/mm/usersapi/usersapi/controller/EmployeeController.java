@@ -42,16 +42,22 @@ public class EmployeeController {
         return empl;
     }
 
-    @PutMapping("/")
+    @PutMapping("/{id}")
     public @ResponseBody
-    Employee updateEmployee(@RequestBody Employee employee) {
+    Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
         // TODO: ACA SE PUEDE IMPLEMENTAR UN BUILDER
-        Employee empl = employeeService.findByDocumentNumber(employee.getDocumentNumber());
+        Employee empl = employeeService.findById(id);
         empl.wrappEmployee(employee);
         employeeService.save(empl);
         // TODO: SHOULD BE CACHEABLE?
         extraHoursService.trackExtraHour(empl.getDocumentNumber(), empl.getExtraHoursAvailable());
         return empl;
+    }
+
+    @GetMapping("/{id}")
+    public @ResponseBody
+    Employee findById(@PathVariable String id){
+        return employeeService.findById(id);
     }
 
     @GetMapping("/findByFullName")

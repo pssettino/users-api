@@ -33,9 +33,16 @@ public class ShiftService {
     }
 
     @Cacheable(value = "shifts")
-    public Shift findByShiftId(Integer shiftId) {
-        Optional<Shift> turno = shiftRepository.findByShiftId(shiftId);
+    public Shift findById(String id) {
+        Optional<Shift> shift = shiftRepository.findById(id);
 
-        return turno.orElseThrow(NotFoundException::new);
+        return shift.orElseThrow(NotFoundException::new);
+    }
+
+    @Cacheable(value = "shifts")
+    public Shift findByDescription(String description) {
+        Optional<Shift> shift = shiftRepository.findByDescription(description);
+
+        return shift.orElseThrow(NotFoundException::new);
     }
 }

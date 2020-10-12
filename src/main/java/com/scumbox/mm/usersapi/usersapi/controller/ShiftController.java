@@ -29,8 +29,19 @@ public class ShiftController {
         return shiftService.save(shift);
     }
 
-    @GetMapping("/{shiftId}")
-    public Shift findByShiftId(@PathVariable Integer shiftId){
-        return shiftService.findByShiftId(shiftId);
+    @PutMapping("/{id}")
+    public Shift updateShift(@PathVariable String id, @RequestBody Shift shift) {
+        shift.setId(id);
+        return shiftService.save(shift);
+    }
+
+    @GetMapping("/{id}")
+    public Shift findById(@PathVariable String id){
+        return shiftService.findById(id);
+    }
+
+    @GetMapping("/description")
+    public Shift findByDescription(@RequestParam String description){
+        return shiftService.findByDescription(description);
     }
 }

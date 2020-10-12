@@ -20,7 +20,7 @@ public class ShiftControllerTest {
     public void test_findAll_when_has_value() {
         // GIVEN
         Shift shift = new Shift();
-        shift.setShiftId(1);
+        shift.setId("1");
         Optional<Shift> shiftOptional = Optional.of(shift);
         List<Shift> shifts = new ArrayList<>();
         shifts.add(shiftOptional.get());
@@ -38,25 +38,25 @@ public class ShiftControllerTest {
     public void test_findByIdTurno_when_has_value() {
         // GIVEN
         Shift seq = new Shift();
-        seq.setShiftId(1);
+        seq.setId("1");
         Optional<Shift> shiftOptional = Optional.of(seq);
-        Mockito.when(shiftService.findByShiftId(Mockito.anyInt())).thenReturn(shiftOptional.get());
+        Mockito.when(shiftService.findById(Mockito.anyString())).thenReturn(shiftOptional.get());
 
         // WHEN
-        Shift result = shiftController.findByShiftId(1);
+        Shift result = shiftController.findById("1");
 
         // THEN
-        Assertions.assertTrue(result.getShiftId() == 1);
+        Assertions.assertTrue(result.getId().equals("1"));
     }
 
     @Test
     public void test_findByIdTurno_when_hasNot_value() {
         // GIVEN
-        Mockito.when(shiftService.findByShiftId(Mockito.anyInt())).thenThrow(NotFoundException.class);
+        Mockito.when(shiftService.findById(Mockito.anyString())).thenThrow(NotFoundException.class);
 
         //WHEN
         try{
-            Shift result = shiftController.findByShiftId(33633265);
+            Shift result = shiftController.findById("13245");
 
         }catch (NotFoundException nfe) {
             Assertions.assertTrue(true);
@@ -67,7 +67,7 @@ public class ShiftControllerTest {
     public void test_save_when_is_ok() {
         // GIVEN
         Shift seq = new Shift();
-        seq.setShiftId(1);
+        seq.setId("1");
         Optional<Shift> sequenceShift = Optional.of(seq);
         Mockito.when(shiftService.save(Mockito.any())).thenReturn(sequenceShift.get());
 
@@ -75,6 +75,6 @@ public class ShiftControllerTest {
         Shift result = shiftController.addShift(sequenceShift.get());
 
         // THEN
-        Assertions.assertTrue(result.getShiftId() == 1);
+        Assertions.assertTrue(result.getId().equals("1"));
     }
 }

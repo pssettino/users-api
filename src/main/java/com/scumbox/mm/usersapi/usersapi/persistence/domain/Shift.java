@@ -24,9 +24,6 @@ public class Shift {
     private String id;
 
     @NotBlank
-    private Integer shiftId;
-
-    @NotBlank
     @Size(max = 140)
     private String description;
 

@@ -37,4 +37,11 @@ public class AbsenceService {
 
         return absence.orElseThrow(NotFoundException::new);
     }
+
+    @Cacheable(value = "absences")
+    public Absence findById(String id) {
+        Optional<Absence> absence = absenceRepository.findById(id);
+
+        return absence.orElseThrow(NotFoundException::new);
+    }
 }

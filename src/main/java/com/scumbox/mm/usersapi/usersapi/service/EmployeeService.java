@@ -51,6 +51,13 @@ public class EmployeeService {
     }
 
     @Cacheable(value = "employees")
+    public Employee findById(String id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+
+        return employee.orElseThrow(NotFoundException::new);
+    }
+
+    @Cacheable(value = "employees")
     public Employee findByDocumentNumber(Integer documentNumber) {
         Optional<Employee> employee = employeeRepository.findByDocumentNumber(documentNumber);
 
