@@ -31,6 +31,6 @@ public class Shift {
 
     private Integer startHour;
     private Integer startMinutes;
-    private Integer endtHour;
-    private Integer endtMinutes;
+    private Integer endHour;
+    private Integer endMinutes;
 }
