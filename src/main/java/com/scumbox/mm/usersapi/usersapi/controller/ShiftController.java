@@ -18,13 +18,13 @@ public class ShiftController {
         this.shiftService = shiftService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Shift> getAll() {
         return shiftService.getAll();
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public Shift addShift(@RequestBody Shift shift) {
         return shiftService.save(shift);
     }
