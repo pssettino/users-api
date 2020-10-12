@@ -1,6 +1,5 @@
 package com.scumbox.mm.usersapi.usersapi.controller;
 
-import com.scumbox.mm.usersapi.usersapi.commons.JsonResponse;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;

@@ -1,6 +1,7 @@
 package com.scumbox.mm.usersapi.usersapi.service;
 
 import com.netflix.discovery.converters.Auto;
+import com.scumbox.mm.usersapi.usersapi.exception.DuplicateEmployeeException;
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.persistence.repository.EmployeeRepository;
@@ -35,6 +36,10 @@ public class EmployeeService {
 
     @CachePut(value = "employees")
     public Employee save(Employee employee) {
+        Boolean exist = existDocumentNumber(employee.getDocumentNumber());
+
+        if(exist) { throw new DuplicateEmployeeException(); }
+
         return employeeRepository.save(employee);
     }
 
@@ -50,6 +55,12 @@ public class EmployeeService {
         Optional<Employee> employee = employeeRepository.findByDocumentNumber(documentNumber);
 
         return employee.orElseThrow(NotFoundException::new);
+    }
+
+    private Boolean existDocumentNumber(Integer documentNumber) {
+        Optional<Employee> employee = employeeRepository.findByDocumentNumber(documentNumber);
+
+        return employee.isPresent();
     }
 }
 
