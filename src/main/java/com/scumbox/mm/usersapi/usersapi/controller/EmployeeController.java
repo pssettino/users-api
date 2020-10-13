@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public @ResponseBody
     Employee addEmployee(@RequestBody Employee employee) {
         Employee empl = employeeService.save(employee);

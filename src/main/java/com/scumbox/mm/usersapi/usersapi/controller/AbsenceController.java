@@ -19,13 +19,13 @@ public class AbsenceController {
         this.absenceService = absenceService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Absence> getAll() {
         return absenceService.getAll();
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public Absence addAbsence(@RequestBody Absence absence) {
         return absenceService.save(absence);
     }

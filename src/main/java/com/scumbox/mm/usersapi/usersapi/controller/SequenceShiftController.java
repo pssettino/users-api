@@ -18,13 +18,13 @@ public class SequenceShiftController {
         this.sequenceShiftService = sequenceShiftService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<SequenceShift> getAll() {
         return sequenceShiftService.getAll();
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public SequenceShift addSequenceShift(@RequestBody SequenceShift sequenceShift) {
         return sequenceShiftService.save(sequenceShift);
     }

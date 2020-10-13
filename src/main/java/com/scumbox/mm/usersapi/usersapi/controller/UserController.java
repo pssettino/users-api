@@ -21,12 +21,12 @@ public class UserController {
         this.publishService = publishService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<User> getAll() {
         return userService.getAll();
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public User addUser(@RequestBody User user) {
 
         User userRes = userService.addUser(user);

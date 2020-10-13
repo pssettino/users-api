@@ -19,13 +19,13 @@ public class SanctionController {
         this.sanctionService = sanctionService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Sanction> getAll() {
         return sanctionService.getAll();
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public Sanction addSantion(@RequestBody Sanction sanction) {
         return sanctionService.save(sanction);
     }

@@ -20,13 +20,13 @@ public class JustificationController {
         this.justificationService = justificationService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Justification> getAll() {
         return justificationService.getAll();
     }
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public Justification addJusticacion(@RequestBody Justification justification) {
         return justificationService.save(justification);
     }
