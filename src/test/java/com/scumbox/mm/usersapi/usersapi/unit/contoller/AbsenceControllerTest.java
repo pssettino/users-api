@@ -4,7 +4,9 @@ import com.scumbox.mm.usersapi.usersapi.controller.AbsenceController;
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
+import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.service.AbsenceService;
+import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,7 +19,8 @@ import java.util.Optional;
 public class AbsenceControllerTest {
     
     AbsenceService absenceService = Mockito.mock(AbsenceService.class);
-    AbsenceController absenceControllerTest = new AbsenceController(absenceService);
+    EmployeeService employeeService = Mockito.mock(EmployeeService.class);
+    AbsenceController absenceControllerTest = new AbsenceController(absenceService, employeeService);
 
     private static List<AbsenceDetail> absencesDetailMock(){
         List<AbsenceDetail> absenceDetails = new ArrayList<AbsenceDetail>();
@@ -80,11 +83,14 @@ public class AbsenceControllerTest {
     @Test
     public void test_save_when_is_ok() {
         // GIVEN
+        Employee employee = new Employee();
+        employee.setDocumentNumber(33633264);
         Optional<Absence> absence = Optional.of(new Absence(33633264, absencesDetailMock()));
         Mockito.when(absenceService.save(Mockito.any())).thenReturn(absence.get());
+        Mockito.when(employeeService.findById(Mockito.anyString())).thenReturn(employee);
 
         // WHEN
-        Absence result = absenceControllerTest.addAbsence(absence.get());
+        Absence result = absenceControllerTest.addAbsence("1", absence.get());
 
         // THEN
         Assertions.assertTrue(result.getDocumentNumber() == 33633264);

@@ -21,24 +21,24 @@ public class AbsenceService {
         this.absenceRepository = absenceRepository;
     }
 
-    @CacheEvict(value = "absences", allEntries = true)
+    // @CacheEvict(value = "absences", allEntries = true)
     public List<Absence> getAll() {
         return absenceRepository.findAll();
     }
 
-    @CachePut(value = "absences")
+    // @CachePut(value = "absences")
     public Absence save(Absence absence) {
         return absenceRepository.save(absence);
     }
 
-    @Cacheable(value = "absences")
+    // @Cacheable(value = "absences")
     public Absence findByDocumentNumber(Integer documentNumber) {
         Optional<Absence> absence = absenceRepository.findByDocumentNumber(documentNumber);
 
-        return absence.orElseThrow(NotFoundException::new);
+        return absence.orElse(null);
     }
 
-    @Cacheable(value = "absences")
+    // @Cacheable(value = "absences")
     public Absence findById(String id) {
         Optional<Absence> absence = absenceRepository.findById(id);
 
