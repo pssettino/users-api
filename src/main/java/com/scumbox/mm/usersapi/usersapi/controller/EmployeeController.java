@@ -66,7 +66,7 @@ public class EmployeeController {
         return employeeService.findByFullName(fullName);
     }
 
-    @GetMapping("/{documentNumber}")
+    @GetMapping("/dni/{documentNumber}")
     public @ResponseBody
     Employee findByDocumentNumber(@PathVariable Integer documentNumber) {
         return employeeService.findByDocumentNumber(documentNumber);

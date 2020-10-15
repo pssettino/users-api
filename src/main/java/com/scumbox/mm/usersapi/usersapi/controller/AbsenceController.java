@@ -48,7 +48,7 @@ public class AbsenceController {
         return absenceService.findById(id);
     }
 
-    @GetMapping("/{documentNumber}")
+    @GetMapping("/dni/{documentNumber}")
     public Absence findByDocumentNumber(@PathVariable Integer documentNumber) {
         return absenceService.findByDocumentNumber(documentNumber);
     }
