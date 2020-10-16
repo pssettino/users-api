@@ -30,8 +30,8 @@ public class AbsenceDetailService {
     }
 
     // @Cacheable(value = "absences")
-    public List<AbsenceDetail> findByAbsenceId(String absenceId) {
-        Optional<List<AbsenceDetail>> absence = absenceDetailRepository.findByAbsenceId(absenceId);
+    public List<AbsenceDetail> findByEmployeeId(String employeeId) {
+        Optional<List<AbsenceDetail>> absence = absenceDetailRepository.findByEmployeeId(employeeId);
 
         return absence.orElse(null);
     }

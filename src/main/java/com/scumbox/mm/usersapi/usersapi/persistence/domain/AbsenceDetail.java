@@ -19,7 +19,7 @@ import java.util.Date;
 public class AbsenceDetail implements Serializable {
     @Id
     private String id;
-    private String absenceId;
+    private String employeeId;
     private Date start;
     private Date end;
     private String type;

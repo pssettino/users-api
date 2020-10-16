@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AbsenceDetailRepository extends MongoRepository<AbsenceDetail, String> {
-    Optional<List<AbsenceDetail>> findByAbsenceId(String absenceId);
+    Optional<List<AbsenceDetail>> findByEmployeeId(String employeeId);
 }

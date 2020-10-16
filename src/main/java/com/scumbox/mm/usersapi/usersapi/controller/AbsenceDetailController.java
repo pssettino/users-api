@@ -1,5 +1,6 @@
 package com.scumbox.mm.usersapi.usersapi.controller;
 
+import com.google.common.base.Strings;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
@@ -24,15 +25,18 @@ public class AbsenceDetailController {
     }
 
     @GetMapping("")
-    public List<AbsenceDetail> getAll(@RequestParam(required = false) String absenceId) {
+    public List<AbsenceDetail> getAll(@RequestParam(required = false) String employeeId) {
+        if(Strings.isNullOrEmpty(employeeId)){
+            return absenceDetailService.getAll();
+        }
         return absenceDetailService.getAll().stream().filter(it ->
-                it.getStatus() && absenceId.equals(it.getAbsenceId())
+                it.getStatus() && employeeId.equals(it.getEmployeeId())
         ).collect(Collectors.toList());
     }
 
-
-    @PostMapping("/{id}")
-    public void add(@PathVariable String id, @RequestBody AbsenceDetail absenceDetail) {
+    @PostMapping("/{employeeId}")
+    public void addAbsence(@PathVariable String employeeId, @RequestBody AbsenceDetail absenceDetail) {
+        absenceDetail.setEmployeeId(employeeId);
         absenceDetailService.save(absenceDetail);
     }
 
@@ -41,8 +45,8 @@ public class AbsenceDetailController {
         return absenceDetailService.findById(id);
     }
 
-    @GetMapping("/{absenceId}/absence")
-    public List<AbsenceDetail> findByAbsenceId(@PathVariable String absenceId) {
-        return absenceDetailService.findByAbsenceId(absenceId);
+    @GetMapping("/{employeeId}/absences")
+    public List<AbsenceDetail> findByEmployeeId(@PathVariable String employeeId) {
+        return absenceDetailService.findByEmployeeId(employeeId);
     }
 }
