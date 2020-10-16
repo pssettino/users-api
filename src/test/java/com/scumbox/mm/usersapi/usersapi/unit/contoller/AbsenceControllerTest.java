@@ -90,27 +90,7 @@ public class AbsenceControllerTest {
         Mockito.when(employeeService.findById(Mockito.anyString())).thenReturn(employee);
 
         // WHEN
-        Absence result = absenceControllerTest.addAbsence("1", absence.get());
-
-        // THEN
-        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
-    }
-
-    @Test
-    public void test_save_addAbsenceDetail_is_ok() {
-        // GIVEN
-        AbsenceDetail detail = new AbsenceDetail();
-        detail.setStart(new Date());
-        detail.setEnd(new Date());
-        detail.setType("JUSTIFICATION");
-        detail.setDescription("Me quede dormido");
-
-        Optional<Absence> absence = Optional.of(new Absence("33633264", 33633264, absencesDetailMock()));
-        Mockito.when(absenceService.findById(Mockito.anyString())).thenReturn(absence.get());
-        Mockito.when(absenceService.save(Mockito.any())).thenReturn(absence.get());
-
-        // WHEN
-        Absence result = absenceControllerTest.addAbsenceDetail("33633264", detail);
+        Absence result = absenceControllerTest.addAbsence("1",  absencesDetailMock().get(0));
 
         // THEN
         Assertions.assertTrue(result.getDocumentNumber() == 33633264);

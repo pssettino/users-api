@@ -21,13 +21,22 @@ public class Absence implements Serializable {
     @Id
     private String id;
 
-    @NotBlank
+    private String employeeId;
+
     private Integer documentNumber;
 
     private List<AbsenceDetail> absenceDetails;
 
     public Absence(@NotBlank Integer documentNumber, List<AbsenceDetail> absenceDetails) {
         this.documentNumber = documentNumber;
+        this.absenceDetails = absenceDetails;
+    }
+
+    public List<AbsenceDetail> getAbsenceDetails() {
+        return absenceDetails;
+    }
+
+    public void setAbsenceDetails(List<AbsenceDetail> absenceDetails) {
         this.absenceDetails = absenceDetails;
     }
 }

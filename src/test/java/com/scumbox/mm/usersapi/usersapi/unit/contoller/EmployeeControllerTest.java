@@ -25,6 +25,7 @@ public class EmployeeControllerTest {
         // GIVEN
         Employee emp = new Employee();
         emp.setDocumentNumber(33633264);
+        emp.setStatus(true);
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
         List<Employee> employees = new ArrayList<>();

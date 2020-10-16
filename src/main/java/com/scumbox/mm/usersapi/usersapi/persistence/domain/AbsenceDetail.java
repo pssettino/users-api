@@ -17,4 +17,5 @@ public class AbsenceDetail implements Serializable {
     private Date end;
     private String type;
     private String description;
+    private Boolean status;
 }

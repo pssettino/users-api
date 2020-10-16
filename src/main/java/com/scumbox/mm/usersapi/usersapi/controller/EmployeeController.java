@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -27,7 +28,7 @@ public class EmployeeController {
     @GetMapping("")
     public @ResponseBody
     ResponseEntity<List<Employee>> getAll() {
-        List<Employee> employees = employeeService.getAll();
+        List<Employee> employees = employeeService.getAll().stream().filter(it -> it.getStatus() == true).collect(Collectors.toList());
 
         return ResponseEntity.ok(employees);
     }
