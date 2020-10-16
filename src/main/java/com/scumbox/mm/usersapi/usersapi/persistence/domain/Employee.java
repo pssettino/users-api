@@ -62,6 +62,8 @@ public class Employee {
 
     private String shiftId;
 
+    private String absenceId;
+
     private Boolean extraHoursAvailable;
 
     public Employee wrappEmployee(Employee employee) {
@@ -79,6 +81,7 @@ public class Employee {
         this.cuil = employee.getCuil();
         this.birthday = employee.getBirthday();
         this.shiftId = employee.getShiftId();
+        this.absenceId = employee.absenceId;
         this.extraHoursAvailable = employee.getExtraHoursAvailable();
 
         return this;

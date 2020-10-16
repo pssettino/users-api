@@ -5,6 +5,7 @@ import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
+import com.scumbox.mm.usersapi.usersapi.service.AbsenceDetailService;
 import com.scumbox.mm.usersapi.usersapi.service.AbsenceService;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.junit.jupiter.api.Assertions;
@@ -19,8 +20,9 @@ import java.util.Optional;
 public class AbsenceControllerTest {
     
     AbsenceService absenceService = Mockito.mock(AbsenceService.class);
+    AbsenceDetailService absenceDetailService = Mockito.mock(AbsenceDetailService.class);
     EmployeeService employeeService = Mockito.mock(EmployeeService.class);
-    AbsenceController absenceControllerTest = new AbsenceController(absenceService, employeeService);
+    AbsenceController absenceControllerTest = new AbsenceController(absenceService, employeeService, absenceDetailService);
 
     private static List<AbsenceDetail> absencesDetailMock(){
         List<AbsenceDetail> absenceDetails = new ArrayList<AbsenceDetail>();
@@ -30,6 +32,7 @@ public class AbsenceControllerTest {
         detail.setEnd(new Date());
         detail.setType("JUSTIFICATION");
         detail.setDescription("Me quede dormido");
+        detail.setStatus(true);
         absenceDetails.add(detail);
         return absenceDetails;
     }
@@ -39,7 +42,7 @@ public class AbsenceControllerTest {
         // GIVEN
 
 
-        Optional<Absence> absence = Optional.of(new Absence(33633264, absencesDetailMock()));
+        Optional<Absence> absence = Optional.of(new Absence(33633264));
 
         List<Absence> absences = new ArrayList<>();
         absences.add(absence.get());
@@ -56,7 +59,7 @@ public class AbsenceControllerTest {
     @Test
     public void test_findByDni_when_has_value() {
         // GIVEN
-        Optional<Absence> absence = Optional.of(new Absence(33633264, absencesDetailMock()));
+        Optional<Absence> absence = Optional.of(new Absence(33633264));
         Mockito.when(absenceService.findByDocumentNumber(Mockito.anyInt())).thenReturn(absence.get());
 
         // WHEN
@@ -85,14 +88,14 @@ public class AbsenceControllerTest {
         // GIVEN
         Employee employee = new Employee();
         employee.setDocumentNumber(33633264);
-        Optional<Absence> absence = Optional.of(new Absence(33633264, absencesDetailMock()));
+        Optional<Absence> absence = Optional.of(new Absence(33633264));
+        Mockito.when(absenceDetailService.save(absencesDetailMock().get(0))).thenReturn(absencesDetailMock().get(0));
         Mockito.when(absenceService.save(Mockito.any())).thenReturn(absence.get());
         Mockito.when(employeeService.findById(Mockito.anyString())).thenReturn(employee);
+        Mockito.when(absenceService.findByDocumentNumber(Mockito.anyInt())).thenReturn(null);
+
 
         // WHEN
-        Absence result = absenceControllerTest.addAbsence("1",  absencesDetailMock().get(0));
-
-        // THEN
-        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
+        absenceControllerTest.addAbsence("1",  absencesDetailMock().get(0));
     }
 }

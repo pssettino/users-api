@@ -25,18 +25,7 @@ public class Absence implements Serializable {
 
     private Integer documentNumber;
 
-    private List<AbsenceDetail> absenceDetails;
-
-    public Absence(@NotBlank Integer documentNumber, List<AbsenceDetail> absenceDetails) {
+    public Absence(@NotBlank Integer documentNumber) {
         this.documentNumber = documentNumber;
-        this.absenceDetails = absenceDetails;
-    }
-
-    public List<AbsenceDetail> getAbsenceDetails() {
-        return absenceDetails;
-    }
-
-    public void setAbsenceDetails(List<AbsenceDetail> absenceDetails) {
-        this.absenceDetails = absenceDetails;
     }
 }

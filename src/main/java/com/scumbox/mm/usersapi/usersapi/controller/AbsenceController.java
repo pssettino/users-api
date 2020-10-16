@@ -1,9 +1,10 @@
 package com.scumbox.mm.usersapi.usersapi.controller;
 
-import com.scumbox.mm.usersapi.usersapi.dto.AbsenceDetailDto;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
+import com.scumbox.mm.usersapi.usersapi.persistence.repository.AbsenceDetailRepository;
+import com.scumbox.mm.usersapi.usersapi.service.AbsenceDetailService;
 import com.scumbox.mm.usersapi.usersapi.service.AbsenceService;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,13 @@ import java.util.stream.Collectors;
 public class AbsenceController {
     private AbsenceService absenceService;
     private EmployeeService employeeService;
+    private AbsenceDetailService absenceDetailService;
 
     @Autowired
-    public AbsenceController(AbsenceService absenceService, EmployeeService employeeService) {
+    public AbsenceController(AbsenceService absenceService, EmployeeService employeeService, AbsenceDetailService absenceDetailService) {
         this.absenceService = absenceService;
         this.employeeService = employeeService;
+        this.absenceDetailService = absenceDetailService;
     }
 
     @GetMapping("")
@@ -32,24 +35,21 @@ public class AbsenceController {
 
 
     @PostMapping("/{id}")
-    public Absence addAbsence(@PathVariable String id, @RequestBody AbsenceDetail absenceDetail)
+    public void addAbsence(@PathVariable String id, @RequestBody AbsenceDetail absenceDetail)
     {
         Employee employee = employeeService.findById(id);
         Absence absenceDb = absenceService.findByDocumentNumber(employee.getDocumentNumber());
-
+        absenceDetail.setStatus(true);
         if(absenceDb == null) {
             Absence absence = new Absence();
             absence.setDocumentNumber(employee.getDocumentNumber());
             absence.setEmployeeId(employee.getId());
-            List<AbsenceDetail> detail = new ArrayList<>();
-            absenceDetail.setStatus(true);
-            detail.add(absenceDetail);
-            return absenceService.save(absence);
+            absence = absenceService.save(absence);
+            absenceDetail.setAbsenceId(absence.getId());
+            absenceDetailService.save(absenceDetail);
         } else {
-            List<AbsenceDetail> detail = absenceDb.getAbsenceDetails();
-            detail.add(absenceDetail);
-
-            return absenceService.save(absenceDb);
+            absenceDetail.setAbsenceId(absenceDb.getId());
+            absenceDetailService.save(absenceDetail);
         }
     }
 
@@ -64,7 +64,7 @@ public class AbsenceController {
     }
 
     @GetMapping("/{employeeId}")
-    public List<AbsenceDetailDto> findByEmployeeId(@PathVariable String employeeId) {
+    public List<AbsenceDetail> findByEmployeeId(@PathVariable String employeeId) {
         Employee employee = employeeService.findById(employeeId);
         Absence absenceDb = absenceService.findByDocumentNumber(employee.getDocumentNumber());
 
@@ -72,23 +72,10 @@ public class AbsenceController {
             return new ArrayList<>();
         }
         Integer i = 0;
-        List<AbsenceDetail> detail = absenceDb.getAbsenceDetails();
+        List<AbsenceDetail> detail = absenceDetailService.findByAbsenceId(absenceDb.getId()).stream().filter(it ->
+                it.getStatus()).collect(Collectors.toList()
+        );
 
-        // TODO: MEJORAR ESTA GRASADA
-        List<AbsenceDetailDto> list = new ArrayList<>();
-        for (AbsenceDetail it: detail) {
-            AbsenceDetailDto dto = new AbsenceDetailDto();
-            dto.setId(i++);
-            dto.setEmployeeId(employeeId);
-            dto.setStart(it.getStart());
-            dto.setEnd(it.getEnd());
-            dto.setType(it.getType());
-            dto.setDescription(it.getDescription());
-            dto.setStatus(it.getStatus());
-
-            list.add(dto);
-        }
-
-        return list;
+        return detail;
     }
 }
