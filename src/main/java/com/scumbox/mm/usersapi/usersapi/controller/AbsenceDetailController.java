@@ -29,6 +29,7 @@ public class AbsenceDetailController {
         if(Strings.isNullOrEmpty(employeeId)){
             return absenceDetailService.getAll();
         }
+
         return absenceDetailService.getAll().stream().filter(it ->
                 it.getStatus() && employeeId.equals(it.getEmployeeId())
         ).collect(Collectors.toList());
@@ -37,6 +38,7 @@ public class AbsenceDetailController {
     @PostMapping("/{employeeId}")
     public void addAbsence(@PathVariable String employeeId, @RequestBody AbsenceDetail absenceDetail) {
         absenceDetail.setEmployeeId(employeeId);
+        absenceDetail.setStatus(true);
         absenceDetailService.save(absenceDetail);
     }
 

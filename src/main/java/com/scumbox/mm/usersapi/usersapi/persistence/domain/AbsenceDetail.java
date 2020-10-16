@@ -24,6 +24,5 @@ public class AbsenceDetail implements Serializable {
     private Date end;
     private String type;
     private String description;
-    @JsonIgnore
-    private Boolean status;
+    private Boolean status = true;
 }
