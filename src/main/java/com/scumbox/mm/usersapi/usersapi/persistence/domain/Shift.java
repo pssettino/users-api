@@ -33,7 +33,7 @@ public class Shift {
     private Integer startMinutes;
     private Integer endHour;
     private Integer endMinutes;
-
+    private Boolean status;
     public String getId() {
         return id;
     }

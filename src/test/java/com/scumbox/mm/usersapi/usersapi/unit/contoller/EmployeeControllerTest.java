@@ -9,10 +9,13 @@ import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class EmployeeControllerTest {
@@ -30,10 +33,11 @@ public class EmployeeControllerTest {
         Optional<Employee> employee = Optional.of(emp);
         List<Employee> employees = new ArrayList<>();
         employees.add(employee.get());
-        Mockito.when(employeeService.getAll()).thenReturn(employees);
+        Page<Employee> page = new PageImpl<Employee>(employees);
+        Mockito.when(employeeService.getAll(null, null, null)).thenReturn(page);
 
         // WHEN
-        ResponseEntity<List<Employee>> result = employeeController.getAll();
+        ResponseEntity<Map<String, Object>> result = employeeController.getList(null, null, null);
 
         // THEN
         Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
@@ -41,64 +45,22 @@ public class EmployeeControllerTest {
 
 
     @Test
-    public void test_findByDni_when_has_value() {
+    public void test_findById_when_has_value() {
         // GIVEN
         Employee emp = new Employee();
+        emp.setId("33633264");
         emp.setDocumentNumber(33633264);
         emp.setFullName("Pablo Settino");
         Optional<Employee> employee = Optional.of(emp);
-        Mockito.when(employeeService.findByDocumentNumber(Mockito.anyInt())).thenReturn(employee.get());
+        Mockito.when(employeeService.findById(Mockito.anyString())).thenReturn(employee.get());
 
         // WHEN
-        Employee result = employeeController.findByDocumentNumber(33633264);
+        ResponseEntity<Map<String, Object>> result = employeeController.getOne("33633264");
 
         // THEN
-        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
-    @Test
-    public void test_findByFullName_when_has_value() {
-        // GIVEN
-        Employee emp = new Employee();
-        emp.setDocumentNumber(33633264);
-        emp.setFullName("Pablo Settino");
-        Optional<Employee> employee = Optional.of(emp);
-        Mockito.when(employeeService.findByFullName(Mockito.anyString())).thenReturn(employee.get());
-
-        // WHEN
-        Employee result = employeeController.findByFullName("Pablo Settino");
-
-        // THEN
-        Assertions.assertTrue(result.getFullName().equals("Pablo Settino"));
-    }
-
-    @Test
-    public void test_findByDni_when_hasNot_value() {
-        // GIVEN
-        Mockito.when(employeeService.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
-
-        //WHEN
-        try{
-            Employee result = employeeController.findByDocumentNumber(33633264);
-
-        }catch (NotFoundException nfe) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void test_findByFulllName_when_hasNot_value() {
-        // GIVEN
-        Mockito.when(employeeService.findByFullName(Mockito.anyString())).thenThrow(NotFoundException.class);
-
-        //WHEN
-        try{
-            Employee result = employeeController.findByFullName("Pablo Settino");
-
-        }catch (NotFoundException nfe) {
-            Assertions.assertTrue(true);
-        }
-    }
 
     @Test
     public void test_save_when_is_ok() {
@@ -110,9 +72,9 @@ public class EmployeeControllerTest {
         Mockito.when(employeeService.save(Mockito.any())).thenReturn(employee.get());
         Mockito.when(extraHoursService.trackExtraHour(Mockito.any(), Mockito.anyBoolean())).thenReturn(new ExtraHours());
         // WHEN
-        Employee result = employeeController.addEmployee(employee.get());
+        ResponseEntity<Map<String, Object>> result = employeeController.create(employee.get());
 
         // THEN
-        Assertions.assertTrue(result.getFullName().equals("Pablo Settino"));
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 }

@@ -17,6 +17,7 @@ public class ExtraHours {
     @Id
     @GeneratedValue
     private Integer id;
+    private String employeeId;
     private Integer documentNumber;
     private Date start;
     private Date end;
@@ -24,10 +25,19 @@ public class ExtraHours {
     public ExtraHours() {
     }
 
-    public ExtraHours(Integer documentNumber, Date start, Date end) {
+    public ExtraHours(String employeeId, Integer documentNumber, Date start, Date end) {
+        this.employeeId = employeeId;
         this.documentNumber = documentNumber;
         this.start = start;
         this.end = end;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Integer getId() {

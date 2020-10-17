@@ -1,11 +1,9 @@
 package com.scumbox.mm.usersapi.usersapi.controller;
 
 import com.google.common.base.Strings;
-import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.service.AbsenceDetailService;
-import com.scumbox.mm.usersapi.usersapi.service.AbsenceService;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,44 +47,89 @@ public class AbsenceDetailController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response = new HashMap<String, Object>();
-            response.put("stack:", e.getStackTrace());
+            response.put("error:", e.toString());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getOne(@PathVariable String id){
+    public ResponseEntity<Map<String, Object>> getOne(@PathVariable String id) {
+        Map<String, Object> response;
         try {
-            Map<String, Object> response = new HashMap<>();
+            response = new HashMap<String, Object>();
             response.put("data", absenceDetailService.findById(id));
             response.put("validUntil", null);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/{employeeId}")
-    public void create(@PathVariable String employeeId, @RequestBody AbsenceDetail absenceDetail) {
-        absenceDetail.setEmployeeId(employeeId);
-        absenceDetail.setStatus(true);
-        absenceDetailService.save(absenceDetail);
+    public ResponseEntity<Map<String, Object>> create(@PathVariable String employeeId, @RequestBody AbsenceDetail absenceDetail) {
+        Map<String, Object> response;
+        try {
+            response = new HashMap<String, Object>();
+            absenceDetail.setEmployeeId(employeeId);
+            absenceDetail.setStatus(true);
+            absenceDetailService.save(absenceDetail);
+
+            response.put("data", absenceDetail);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody AbsenceDetail absenceDetail) {
-        AbsenceDetail absenceDetailDb = absenceDetailService.findById(id);
-        absenceDetail.setId(id);
-        absenceDetail.setEmployeeId(absenceDetailDb.getEmployeeId());
-        absenceDetailService.save(absenceDetail);
+    public ResponseEntity<Map<String, Object>> update(@PathVariable String id, @RequestBody AbsenceDetail absenceDetail) {
+        Map<String, Object> response;
+        try {
+            response = new HashMap<String, Object>();
+            //AbsenceDetail absenceDetailDb = absenceDetailService.findById(id);
+
+            AbsenceDetail previousData = absenceDetail;
+            absenceDetail.setId(id);
+            absenceDetail.setEmployeeId(absenceDetail.getEmployeeId());
+            absenceDetailService.save(absenceDetail);
+
+            response.put("id", id);
+            response.put("data", absenceDetail);
+            response.put("previousData", previousData);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        AbsenceDetail absenceDetail = absenceDetailService.findById(id);
-        absenceDetail.setStatus(false);
-        absenceDetailService.save(absenceDetail);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable String id) {
+        Map<String, Object> response;
+        try {
+            response = new HashMap<String, Object>();
+            AbsenceDetail absenceDetail = absenceDetailService.findById(id);
+            AbsenceDetail previousData = absenceDetail;
+            absenceDetail.setStatus(false);
+            absenceDetailService.save(absenceDetail);
+            response.put("id", id);
+            response.put("data", absenceDetail);
+            response.put("previousData", previousData);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

@@ -7,10 +7,13 @@ import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ExtraHourControllerTest {
@@ -27,45 +30,14 @@ public class ExtraHourControllerTest {
         Optional<ExtraHours> extraHour = Optional.of(extHr);
         List<ExtraHours> extHrs = new ArrayList<>();
         extHrs.add(extraHour.get());
-        Mockito.when(extraHoursService.getAll()).thenReturn(extHrs);
+        Page<ExtraHours> page = new PageImpl<ExtraHours>(extHrs);
+        Mockito.when(extraHoursService.getAll(null,null,null)).thenReturn(page);
 
         // WHEN
-        ResponseEntity<List<ExtraHours>> result = extraHoursController.getAll();
+        ResponseEntity<Map<String, Object>> result = extraHoursController.getList(null,null,null);
 
         // THEN
         Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
-    }
-
-
-    @Test
-    public void test_findByDni_when_has_value() {
-        // GIVEN
-        ExtraHours extHr = new ExtraHours();
-        extHr.setDocumentNumber(33633264);
-        Optional<ExtraHours> extraHour = Optional.of(extHr);
-        List<ExtraHours> extHrs = new ArrayList<>();
-        extHrs.add(extraHour.get());
-        Mockito.when(extraHoursService.findByDocumentNumber(Mockito.anyInt())).thenReturn(extHrs);
-
-        // WHEN
-        List<ExtraHours> result = extraHoursController.findByDocumentNumber(33633264);
-
-        // THEN
-        Assertions.assertTrue(result.size() > 0);
-    }
-
-    @Test
-    public void test_findByDni_when_hasNot_value() {
-        // GIVEN
-        Mockito.when(extraHoursService.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
-
-        //WHEN
-        try{
-            List<ExtraHours> result = extraHoursController.findByDocumentNumber(33633264);
-
-        }catch (NotFoundException nfe) {
-            Assertions.assertTrue(true);
-        }
     }
 
     @Test
@@ -73,9 +45,9 @@ public class ExtraHourControllerTest {
         // GIVEN
         Mockito.when(extraHoursService.trackExtraHour(Mockito.any(), Mockito.anyBoolean())).thenReturn(new ExtraHours());
         // WHEN
-        ExtraHours result = extraHoursController.trackExtraHour(33633264, true);
+        ResponseEntity<Map<String, Object>> result = extraHoursController.trackExtraHour("safsd", true);
 
         // THEN
-        Assertions.assertTrue(result != null);
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 }

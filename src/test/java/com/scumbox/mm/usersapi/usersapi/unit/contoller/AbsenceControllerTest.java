@@ -2,11 +2,9 @@ package com.scumbox.mm.usersapi.usersapi.unit.contoller;
 
 import com.scumbox.mm.usersapi.usersapi.controller.AbsenceDetailController;
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
-import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Employee;
 import com.scumbox.mm.usersapi.usersapi.service.AbsenceDetailService;
-import com.scumbox.mm.usersapi.usersapi.service.AbsenceService;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

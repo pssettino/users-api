@@ -7,14 +7,19 @@ import com.scumbox.mm.usersapi.usersapi.service.ShiftService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ShiftControllerTest {
     private ShiftService shiftService = Mockito.mock(ShiftService.class);
     private ShiftController shiftController = new ShiftController(shiftService);
+
 
     @Test
     public void test_findAll_when_has_value() {
@@ -24,13 +29,15 @@ public class ShiftControllerTest {
         Optional<Shift> shiftOptional = Optional.of(shift);
         List<Shift> shifts = new ArrayList<>();
         shifts.add(shiftOptional.get());
-        Mockito.when(shiftService.getAll()).thenReturn(shifts);
+        Page<Shift> page = new PageImpl<Shift>(shifts);
+
+        Mockito.when(shiftService.getAll(null, null, null)).thenReturn(page);
 
         // WHEN
-        List<Shift> result = shiftController.getAll();
+        ResponseEntity<Map<String, Object>> result = shiftController.getList(null, null, null);
 
         // THEN
-        Assertions.assertTrue(result.size() > 0);
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
 
@@ -43,10 +50,10 @@ public class ShiftControllerTest {
         Mockito.when(shiftService.findById(Mockito.anyString())).thenReturn(shiftOptional.get());
 
         // WHEN
-        Shift result = shiftController.findById("1");
+        ResponseEntity<Map<String, Object>> result = shiftController.getOne("1");
 
         // THEN
-        Assertions.assertTrue(result.getId().equals("1"));
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
     @Test
@@ -55,10 +62,10 @@ public class ShiftControllerTest {
         Mockito.when(shiftService.findById(Mockito.anyString())).thenThrow(NotFoundException.class);
 
         //WHEN
-        try{
-            Shift result = shiftController.findById("13245");
+        try {
+            shiftController.getOne(null);
 
-        }catch (NotFoundException nfe) {
+        } catch (Exception nfe) {
             Assertions.assertTrue(true);
         }
     }
@@ -72,9 +79,9 @@ public class ShiftControllerTest {
         Mockito.when(shiftService.save(Mockito.any())).thenReturn(sequenceShift.get());
 
         // WHEN
-        Shift result = shiftController.addShift(sequenceShift.get());
+        ResponseEntity<Map<String, Object>> result = shiftController.create(sequenceShift.get());
 
         // THEN
-        Assertions.assertTrue(result.getId().equals("1"));
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 }

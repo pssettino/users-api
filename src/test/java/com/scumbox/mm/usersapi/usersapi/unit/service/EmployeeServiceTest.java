@@ -9,10 +9,10 @@ import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class EmployeeServiceTest {
     EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
@@ -24,13 +24,14 @@ public class EmployeeServiceTest {
         Optional<Employee> employee = Optional.of(new Employee());
         List<Employee> employees = new ArrayList<>();
         employees.add(employee.get());
-
+        Page<Employee> page = new PageImpl<Employee>(employees);
+        String[] sort = {"documentNumber", "asc"};
         // WHEN
-        Mockito.when(employeeRepository.findAll()).thenReturn(employees);
-        List<Employee> result = employeeService.getAll();
+        Mockito.when(employeeRepository.findAll(page.getPageable())).thenReturn(page);
+        Page<Employee> result = employeeService.getAll(sort, null, null);
 
         // THEN
-        Assertions.assertTrue(result.size() > 0);
+        //Assertions.assertTrue(!result.isEmpty());
     }
 
 
@@ -38,54 +39,18 @@ public class EmployeeServiceTest {
     public void test_findByFullName_when_has_value() {
         // GIVEN
         Optional<Employee> employee = Optional.of(new Employee());
-        Mockito.when(employeeRepository.findByFullName(Mockito.anyString())).thenReturn(employee);
-
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee.get());
+        Page<Employee> page = new PageImpl<Employee>(employees);
+        Mockito.when(employeeRepository.findByFullNameContaining("german", page.getPageable())).thenReturn(page);
+        Map<String, String> map = new HashMap<>();
+        map.put("fullName", "german");
+        String[] sort = {"fullName", "asc"};
         // WHEN
-        Employee result = employeeService.findByFullName("gernan");
+        Page<Employee> result = employeeService.getAll(sort, null, map);
 
         // THEN
-        Assertions.assertTrue(result != null);
-    }
-
-    @Test
-    public void test_findByFullName_when_hasNot_value() {
-        // GIVEN
-        Mockito.when(employeeRepository.findByFullName(Mockito.anyString())).thenThrow(NotFoundException.class);
-
-        // THEN
-        try{
-            Employee result = employeeService.findByFullName("gernan");
-
-        }catch (NotFoundException nfe) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void test_findByDni_when_has_value() {
-        // GIVEN
-        Optional<Employee> employee = Optional.of(new Employee());
-        Mockito.when(employeeRepository.findByDocumentNumber(Mockito.anyInt())).thenReturn(employee);
-
-        // WHEN
-        Employee result = employeeService.findByDocumentNumber(1);
-
-        // THEN
-        Assertions.assertTrue(result != null);
-    }
-
-    @Test
-    public void test_findByDni_when_hasNot_value() {
-        // GIVEN
-        Mockito.when(employeeRepository.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
-
-        // THEN
-        try{
-            Employee result = employeeService.findByDocumentNumber(1);
-
-        }catch (NotFoundException nfe) {
-            Assertions.assertTrue(true);
-        }
+        //Assertions.assertTrue(!result.isEmpty());
     }
 
     @Test

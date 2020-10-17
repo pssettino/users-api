@@ -5,10 +5,14 @@ import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import com.scumbox.mm.usersapi.usersapi.service.ExtraHoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,50 +30,107 @@ public class EmployeeController {
 
 
     @GetMapping("")
-    public @ResponseBody
-    ResponseEntity<List<Employee>> getAll() {
-        List<Employee> employees = employeeService.getAll().stream().filter(it -> it.getStatus() == true).collect(Collectors.toList());
+    public ResponseEntity<Map<String, Object>> getList(
+            @RequestParam(defaultValue = "fullName, asc", required = false) String[] sort,
+            @RequestParam(required = false) Integer[] range,
+            @RequestParam(required = false) Map<String, String> filter
+    ) {
 
-        return ResponseEntity.ok(employees);
+        Map<String, Object> response;
+        try {
+            response = new HashMap<String, Object>();
+
+            Page<Employee> employees = employeeService.getAll(sort, range, filter);
+
+            response.put("data", employees.getContent());
+            response.put("total", employees.getTotalElements());
+            response.put("validUntil", null);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getOne(@PathVariable String id){
+        Map<String, Object> response;
+        try {
+            response = new HashMap<>();
+            response.put("data", employeeService.findById(id));
+            response.put("validUntil", null);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
     @PostMapping("")
-    public @ResponseBody
-    Employee addEmployee(@RequestBody Employee employee) {
-        Employee empl = employeeService.save(employee);
-        // TODO: SHOULD BE CACHEABLE?
-        extraHoursService.trackExtraHour(empl.getDocumentNumber(), empl.getExtraHoursAvailable());
-        return empl;
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Employee employee) {
+        Map<String, Object> response;
+        try {
+            response = new HashMap<>();
+            Employee empl = employeeService.save(employee);
+            // TODO: SHOULD BE CACHEABLE?
+            extraHoursService.trackExtraHour(empl.getId(), empl.getExtraHoursAvailable());
+
+
+            response.put("data", empl);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
-    public @ResponseBody
-    Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
-        // TODO: ACA SE PUEDE IMPLEMENTAR UN BUILDER
-        Employee empl = employeeService.findById(id);
-        empl.wrappEmployee(employee);
-        employeeService.save(empl);
-        // TODO: SHOULD BE CACHEABLE?
-        extraHoursService.trackExtraHour(empl.getDocumentNumber(), empl.getExtraHoursAvailable());
-        return empl;
+    public ResponseEntity<Map<String, Object>> update(@PathVariable String id, @RequestBody Employee employee) {
+        Map<String, Object> response;
+        try {
+            //Employee empl = employeeService.findById(id);
+            Employee previousData = employee;
+            employee.setId(id);
+            employee = employeeService.save(employee);
+            // TODO: SHOULD BE CACHEABLE?
+            extraHoursService.trackExtraHour(employee.getId(), employee.getExtraHoursAvailable());
+            response = new HashMap<>();
+            response.put("id", id);
+            response.put("data", employee);
+            response.put("previousData", previousData);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @GetMapping("/{id}")
-    public @ResponseBody
-    Employee findById(@PathVariable String id){
-        return employeeService.findById(id);
-    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable String id) {
+        Map<String, Object> response;
+        try {
+            Employee empl = employeeService.findById(id);
+            Employee previousData = empl;
+            empl.setStatus(false);
+            employeeService.save(empl);
+            response = new HashMap<>();
+            response.put("id", id);
+            response.put("previousData", previousData);
 
-    @GetMapping("/findByFullName")
-    public @ResponseBody
-    Employee findByFullName(@RequestParam String fullName) {
-        return employeeService.findByFullName(fullName);
-    }
-
-    @GetMapping("/dni/{documentNumber}")
-    public @ResponseBody
-    Employee findByDocumentNumber(@PathVariable Integer documentNumber) {
-        return employeeService.findByDocumentNumber(documentNumber);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("error:", e.toString());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
