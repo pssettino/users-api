@@ -1,6 +1,6 @@
 package com.scumbox.mm.usersapi.usersapi.unit.contoller;
 
-import com.scumbox.mm.usersapi.usersapi.controller.AbsenceController;
+import com.scumbox.mm.usersapi.usersapi.controller.AbsenceDetailController;
 import com.scumbox.mm.usersapi.usersapi.exception.NotFoundException;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.Absence;
 import com.scumbox.mm.usersapi.usersapi.persistence.domain.AbsenceDetail;
@@ -11,18 +11,16 @@ import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class AbsenceControllerTest {
-    
-    AbsenceService absenceService = Mockito.mock(AbsenceService.class);
+
     AbsenceDetailService absenceDetailService = Mockito.mock(AbsenceDetailService.class);
-    EmployeeService employeeService = Mockito.mock(EmployeeService.class);
-    AbsenceController absenceControllerTest = new AbsenceController(absenceService, employeeService, absenceDetailService);
+    AbsenceDetailController absenceDetailControllerTest = new AbsenceDetailController(absenceDetailService);
 
     private static List<AbsenceDetail> absencesDetailMock(){
         List<AbsenceDetail> absenceDetails = new ArrayList<AbsenceDetail>();
@@ -42,60 +40,22 @@ public class AbsenceControllerTest {
         // GIVEN
 
 
-        Optional<Absence> absence = Optional.of(new Absence(33633264));
+        Page<AbsenceDetail> page = new PageImpl<AbsenceDetail>(absencesDetailMock());
 
-        List<Absence> absences = new ArrayList<>();
-        absences.add(absence.get());
-        Mockito.when(absenceService.getAll()).thenReturn(absences);
+        String[] sort = {"employeeId", "ASC"};
+        Integer[] range = {0, 3};
+        Map<String, String> filter = new HashMap<>();
+        filter.put("q", "4546786");
+
+        Mockito.when(absenceDetailService.getAll(sort, range, filter)).thenReturn(page);
+
+
 
         // WHEN
-        List<Absence> result = absenceControllerTest.getAll();
+        ResponseEntity<Map<String, Object>> result = absenceDetailControllerTest.getList(sort, range, filter);
 
         // THEN
-        Assertions.assertTrue(result.size() > 0);
+        Assertions.assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
-
-    @Test
-    public void test_findByDni_when_has_value() {
-        // GIVEN
-        Optional<Absence> absence = Optional.of(new Absence(33633264));
-        Mockito.when(absenceService.findByDocumentNumber(Mockito.anyInt())).thenReturn(absence.get());
-
-        // WHEN
-        Absence result = absenceControllerTest.findByDocumentNumber(33633264);
-
-        // THEN
-        Assertions.assertTrue(result.getDocumentNumber() == 33633264);
-    }
-
-    @Test
-    public void test_findByDni_when_hasNot_value() {
-        // GIVEN
-        Mockito.when(absenceService.findByDocumentNumber(Mockito.anyInt())).thenThrow(NotFoundException.class);
-
-        //WHEN
-        try{
-            Absence result = absenceControllerTest.findByDocumentNumber(33633265);
-
-        }catch (NotFoundException nfe) {
-            Assertions.assertTrue(true);
-        }
-    }
-
-    @Test
-    public void test_save_when_is_ok() {
-        // GIVEN
-        Employee employee = new Employee();
-        employee.setDocumentNumber(33633264);
-        Optional<Absence> absence = Optional.of(new Absence(33633264));
-        Mockito.when(absenceDetailService.save(absencesDetailMock().get(0))).thenReturn(absencesDetailMock().get(0));
-        Mockito.when(absenceService.save(Mockito.any())).thenReturn(absence.get());
-        Mockito.when(employeeService.findById(Mockito.anyString())).thenReturn(employee);
-        Mockito.when(absenceService.findByDocumentNumber(Mockito.anyInt())).thenReturn(null);
-
-
-        // WHEN
-        // absenceControllerTest.addAbsence("1",  absencesDetailMock().get(0));
-    }
 }

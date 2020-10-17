@@ -33,4 +33,60 @@ public class Shift {
     private Integer startMinutes;
     private Integer endHour;
     private Integer endMinutes;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Integer> getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
+    public void setDaysOfWeek(List<Integer> daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
+    }
+
+    public Integer getStartHour() {
+        return startHour;
+    }
+
+    public void setStartHour(Integer startHour) {
+        this.startHour = startHour;
+    }
+
+    public Integer getStartMinutes() {
+        return startMinutes;
+    }
+
+    public void setStartMinutes(Integer startMinutes) {
+        this.startMinutes = startMinutes;
+    }
+
+    public Integer getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(Integer endHour) {
+        this.endHour = endHour;
+    }
+
+    public Integer getEndMinutes() {
+        return endMinutes;
+    }
+
+    public void setEndMinutes(Integer endMinutes) {
+        this.endMinutes = endMinutes;
+    }
 }

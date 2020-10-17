@@ -8,14 +8,19 @@ import com.scumbox.mm.usersapi.usersapi.service.AbsenceDetailService;
 import com.scumbox.mm.usersapi.usersapi.service.AbsenceService;
 import com.scumbox.mm.usersapi.usersapi.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/absencesDetails")
+@RequestMapping("/api/absences")
 public class AbsenceDetailController {
     private AbsenceDetailService absenceDetailService;
 
@@ -25,30 +30,63 @@ public class AbsenceDetailController {
     }
 
     @GetMapping("")
-    public List<AbsenceDetail> getAll(@RequestParam(required = false) String employeeId) {
-        if(Strings.isNullOrEmpty(employeeId)){
-            return absenceDetailService.getAll();
-        }
+    public ResponseEntity<Map<String, Object>> getList(
+            @RequestParam(defaultValue = "description, asc", required = false) String[] sort,
+            @RequestParam(required = false) Integer[] range,
+            @RequestParam(required = false) Map<String, String> filter
+    ) {
 
-        return absenceDetailService.getAll().stream().filter(it ->
-                it.getStatus() && employeeId.equals(it.getEmployeeId())
-        ).collect(Collectors.toList());
+        Map<String, Object> response;
+        try {
+            response = new HashMap<String, Object>();
+
+            Page<AbsenceDetail> absences = absenceDetailService.getAll(sort, range, filter);
+
+            response.put("data", absences.getContent());
+            response.put("total", absences.getTotalElements());
+            response.put("validUntil", null);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new HashMap<String, Object>();
+            response.put("stack:", e.getStackTrace());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getOne(@PathVariable String id){
+        try {
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", absenceDetailService.findById(id));
+            response.put("validUntil", null);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/{employeeId}")
-    public void addAbsence(@PathVariable String employeeId, @RequestBody AbsenceDetail absenceDetail) {
+    public void create(@PathVariable String employeeId, @RequestBody AbsenceDetail absenceDetail) {
         absenceDetail.setEmployeeId(employeeId);
         absenceDetail.setStatus(true);
         absenceDetailService.save(absenceDetail);
     }
 
-    @GetMapping("/id")
-    public AbsenceDetail findById(@RequestParam String id){
-        return absenceDetailService.findById(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody AbsenceDetail absenceDetail) {
+        AbsenceDetail absenceDetailDb = absenceDetailService.findById(id);
+        absenceDetail.setId(id);
+        absenceDetail.setEmployeeId(absenceDetailDb.getEmployeeId());
+        absenceDetailService.save(absenceDetail);
     }
 
-    @GetMapping("/{employeeId}/absences")
-    public List<AbsenceDetail> findByEmployeeId(@PathVariable String employeeId) {
-        return absenceDetailService.findByEmployeeId(employeeId);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        AbsenceDetail absenceDetail = absenceDetailService.findById(id);
+        absenceDetail.setStatus(false);
+        absenceDetailService.save(absenceDetail);
     }
+
 }
